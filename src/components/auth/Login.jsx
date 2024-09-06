@@ -6,7 +6,7 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
+import { BASE_URL, USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
@@ -37,7 +37,7 @@ const Login = () => {
 
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`${USER_API_END_POINT}/user/login`, input, {
+            const res = await axios.post(`${BASE_URL}/user/login`, input, {
                 headers: {
                     "Content-Type": "application/json"
                 },
