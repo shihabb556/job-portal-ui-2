@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
-import Navbar from './shared/Navbar'
-import HeroSection from './HeroSection'
-import CategoryCarousel from './CategoryCarousel'
-import LatestJobs from './LatestJobs'
-import Footer from './shared/Footer'
+import React, { useEffect ,Suspense} from 'react';
+const Navbar = React.lazy(() => import('./shared/Navbar'));
+const HeroSection = React.lazy(() => import('./HeroSection'));
+const CategoryCarousel = React.lazy(() => import('./CategoryCarousel'));
+const LatestJobs = React.lazy(() => import('./LatestJobs'));
+const Footer = React.lazy(() => import('./shared/Footer'));
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -12,19 +12,28 @@ const Home = () => {
   useGetAllJobs();
   const { user } = useSelector(store => store.auth);
   const navigate = useNavigate();
+
+  let respUser;
+  if(user){
+    respUser = user?.user;
+  };
+
   useEffect(() => {
-    if (user?.role === 'recruiter') {
+    if (respUser?.role === 'recruiter') {
       navigate("/admin/companies");
     }
-  }, []);
+  }, [respUser]);
+
   return (
-    <div>
+    <Suspense fallback={<div className='bg-gray-500'>Loading...</div>}>
       <Navbar />
-      <HeroSection /> 
-      <CategoryCarousel />
-      <LatestJobs />
+      <div className='px-5'>
+        <HeroSection /> 
+        <CategoryCarousel />
+        <LatestJobs />
+      </div>
       <Footer />
-    </div>
+    </Suspense>
   )
 }
 

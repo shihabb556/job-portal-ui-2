@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',  // Bind to all network interfaces
-    port: 5173,       // Specify port o
+    port: 5173,       
 
   },
   resolve: {
