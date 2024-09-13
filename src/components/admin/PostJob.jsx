@@ -5,23 +5,22 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useSelector } from 'react-redux';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import axios from 'axios';
-import { JOB_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import baseApi from '@/utils/baseApi';
 
 const PostJob = () => {
     const [input, setInput] = useState({
         title: "",
         requirements: "",
-        salary: 0,
+        salary: Number,
         location: "",
         jobType: "",
-        experience: 0,
-        position: 0,
+        experience: Number,
+        position: Number,
         companyId: "",
         description: ""
     });
@@ -48,7 +47,7 @@ const PostJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
+            const res = await baseApi.post(`/job/post`, input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -132,7 +131,7 @@ const PostJob = () => {
                             />
                         </div>
                         <div>
-                            <Label>No of Position</Label>
+                            <Label>Number of Position</Label>
                             <Input
                                 type="number"
                                 name="position"
@@ -167,6 +166,7 @@ const PostJob = () => {
                             onChange={handleDescriptionChange}
                             modules={QuillModules}
                             formats={QuillFormats}
+                            theme='snow'
                         />
                     </div>
 

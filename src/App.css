@@ -1,0 +1,10 @@
+
+    ul {
+    list-style-type: disc; /* or square, circle, etc. */
+    padding-left: 20px; /* Adjust for indentation */
+    margin-bottom: 10px;
+  }
+  
+  ul li {
+    margin-bottom: 5px; /* Space between list items */
+  }

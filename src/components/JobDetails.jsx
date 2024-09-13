@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import Navbar from './shared/Navbar';
 import baseApi from '@/utils/baseApi';
-import axios from 'axios';
-import { BASE_URL } from '@/utils/constant';
+import DOMPurify from 'dompurify';
 
-const JobDescription = () => {
+
+const JobDetails = () => {
     const {singleJob} = useSelector(store => store.job);
     const navigate = useNavigate();
     const params = useParams();
@@ -73,14 +73,13 @@ const JobDescription = () => {
     return (
      <div>
         <Navbar/>
-        <div className='max-w-7xl mx-auto my-10 p-5'>
+        <div className='max-w-7xl mx-auto my-10 p-5 md:mx-10'>
             <div className='flex items-center justify-between'>
                 <div>
                     <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
                     <div className='flex items-center gap-2 mt-4'>
-                        <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.postion} Positions</Badge>
+                        <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.position} Positions</Badge>
                         <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
-                        <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary}LPA</Badge>
                     </div>
                 </div>
                 <Button
@@ -90,17 +89,24 @@ const JobDescription = () => {
                     {isApplied ? 'Already Applied' : 'Apply Now'}
                 </Button>
             </div>
-            <div className='my-4'>
-               <h1 className='font-bold my-1'>Role: <span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
-               <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
-               <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{singleJob?.experience} yrs</span></h1>
-               <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}LPA</span></h1>
-               <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
-               <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
+            <div className='my-4 text-gray-700'>
+               <h1 className='font-bold my-1 '>Role: <span className='pl-4 font-normal '>{singleJob?.title}</span></h1>
+               <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal '>{singleJob?.location}</span></h1>
+               <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal '>{singleJob?.experienceLevel} yrs</span></h1>
+               <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal '>{singleJob?.salary} TK</span></h1>
+               <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal '>{singleJob?.applications?.length}</span></h1>
+               <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal '>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>
-            <div>
+            <div className=' bg-gray-100 p-4'>
                <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
-               <h1 className='font-bold my-1'> <span className='pl-4 font-normal text-gray-800'>{singleJob?.description} </span></h1>
+               <div className='font-bold my-1 px-5'> 
+                    <span className=' font-normal text-gray-800'> 
+                        <div
+                           className='prose'
+                           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(singleJob?.description) }}
+                         /> 
+                    </span>
+                </div>
             </div>
 
         </div>
@@ -108,4 +114,4 @@ const JobDescription = () => {
   )
 }
 
-export default JobDescription
+export default JobDetails

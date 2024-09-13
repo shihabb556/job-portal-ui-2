@@ -22,14 +22,14 @@ const Navbar = () => {
 
 
     return (
-        <div className='bg-white'>
+        <div className='bg-white sticky top-0 z-10 bg-opacity-5 backdrop-blur-md shadow-md '>
             <div className='flex items-center px-3 justify-between mx-auto max-w-7xl h-16'>
                 <div>
                     <Link to={'/'}>
-                       <h1 className='md:text-2xl sm:text-xl text-sm  font-bold'>Job<span className='text-[#F83002]'>Portal</span></h1>
+                       <h1 className='md:text-2xl sm:text-xl text-sm  font-bold pb-1 md:pb-0'>Job<span className='text-[#F83002]'>Portal</span></h1>
                     </Link>
                 </div>
-                <div className='flex items-center gap-12'>
+                <div className='flex items-center gap-3 md:gap-8 '>
                     <ul className='flex font-medium items-center text-sm sm:text-md gap-5'>
                         {
                             respUser && respUser.role === 'recruiter' ? (
@@ -51,8 +51,8 @@ const Navbar = () => {
                     {
                         !respUser ? (
                             <div className='flex items-center gap-2'>
-                                <Link to="/login"><Button variant="outline">Login</Button></Link>
-                                <Link to="/signup"><Button className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button></Link>
+                                <Link to="/login"><Button sixe='sm' variant="outline">Login</Button></Link>
+                                <Link to="/signup"><Button size='sm' className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button></Link>
                             </div>
                         ) : (
                             <Popover>
@@ -84,7 +84,7 @@ const Navbar = () => {
                                                             <Link to="/jobs">Jobs</Link>
                                                         </li>
                                                         <li>  
-                                                            <Link to="/profile">profile</Link>
+                                                            <Link to="/profile">Profile</Link>
                                                         </li>
                                                         <li>  
                                                             <Link to="/interview-prep/qna">  Interview Preparation</Link>

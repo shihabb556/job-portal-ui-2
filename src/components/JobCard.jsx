@@ -4,8 +4,9 @@ import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
+import handleLimitDescription from '@/utils/handleLimitDescription'
 
-const Job = ({job}) => {
+const JobCard = ({job}) => {
     const navigate = useNavigate();
 
     const daysAgoFunction = (mongodbTime) => {
@@ -31,25 +32,28 @@ const Job = ({job}) => {
                 </Button>
                 <div>
                     <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
-                    <p className='text-sm text-gray-500'>India</p>
+                    <p className='text-sm text-gray-500'>{job?.company?.location}</p>
                 </div>
             </div>
 
             <div>
                 <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
-                <p className='text-sm text-gray-600'>{job?.description}</p>
+                <p className='text-sm text-gray-600'>
+                   {
+                      handleLimitDescription(job?.description,120)
+                      
+                    }
+                </p>
             </div>
             <div className='flex items-center gap-2 mt-4'>
                 <Badge className={'text-blue-700 font-bold'} variant="ghost">{job?.position} Positions</Badge>
                 <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
-                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
             </div>
             <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=> navigate(`/job/${job?._id}`)} variant="outline">Details</Button>
-                <Button className="bg-[#7209b7]">Save For Later</Button>
+                <Button className="bg-[#810BD0] hover:bg-[#9421E2]" onClick={()=> navigate(`/job/${job?._id}`)} >Details</Button>
             </div>
         </div>
     )
 };
 
-export default Job;
+export default JobCard;
