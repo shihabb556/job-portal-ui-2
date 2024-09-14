@@ -93,9 +93,9 @@ const Login = () => {
                     </div>
 
                     {
-                        loading ? <Button className="w-[4em] my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Login</Button>
+                        loading ? <Button className="w-[9em] my-4 bg-gray-400"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-[6em] my-4">Login</Button>
                     }
-                    <span className='text-sm'>Don't have an account? <Link to="/signup" className='text-blue-600'>Signup</Link></span>
+                    <div className='text-sm'>Don't have an account? <Link to="/signup" className='text-blue-600'>Signup</Link></div>
                 </form>
             </div>
         </div>

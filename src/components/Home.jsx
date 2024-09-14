@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <Suspense fallback={<div className='bg-gray-500'>Loading...</div>}>
       <Navbar />
-      <div className='px-5'>
+      <div className='px-5 max-w-5xl mx-auto'>
         <HeroSection /> 
         <CategoryCarousel />
         <LatestJobs />

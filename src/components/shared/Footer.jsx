@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 
 const Footer = () => {
   return (
@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col-reverse md:flex-row justify-between items-center p-8">
           <div className=" flex flex-col items-center mb-4 md:mb-0">
-            <h2 className="text-xl font-bold">Job Hunt</h2>
+          <h1 className='md:text-xl sm:text-md text-sm  font-bold pb-1 md:pb-0 text-[#6A38C2]'>Job<span className='text-[#F83002]'>Portal</span> <span className='text-sm text-gray-700'> -  Your Gateway to a Bright Future.</span></h1>
             <p className="text-sm">© 2024. All rights reserved.</p>
           </div>
           
