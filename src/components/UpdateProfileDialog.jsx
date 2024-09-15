@@ -21,7 +21,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
         skills: user?.profile?.skills?.map(skill => skill) || "",
-        file: user?.profile?.resume || ""
+        resume: user?.profile?.resume || ""
     });
     const dispatch = useDispatch();
 
@@ -46,6 +46,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
         formData.append("skills", formattedSkills);
+        formData.append("resume", input.resume);
     
         if (input.file) {
             formData.append("file", input.file);
@@ -139,14 +140,19 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className="col-span-3"
                                 />
                             </div>
+                            <p className='text-[14px] text-red-500 pl-8'>
+                                Please enter the link of your resume. 
+                                You can upload your resume to Google Drive, make it publicly accessible, 
+                                then copy the link and paste it into the input field below.
+                            </p>
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="file" className="text-right">Resume</Label>
                                 <Input
-                                    id="file"
-                                    name="file"
-                                    type="file"
-                                    accept="application/pdf"
-                                    onChange={fileChangeHandler}
+                                    id="resume"
+                                    name="resume"
+                                    type="text"
+                                    value={input.resume}
+                                    onChange={changeEventHandler}
                                     className="col-span-3"
                                 />
                             </div>

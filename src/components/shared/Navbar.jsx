@@ -10,7 +10,7 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 import { toast } from 'sonner';
-import { persistor } from '../../redux/store'; 
+// import { persistor } from '../../redux/store'; 
 
 
 const Navbar = () => {

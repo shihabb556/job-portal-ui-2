@@ -73,7 +73,7 @@ const Profile = () => {
                         <>
                              <div className='my-5 mt-7'>
                                 <h1>Skills</h1>
-                                <div className='flex items-center gap-2 p-2'>
+                                <div className='flex items-center gap-2 p-2 flex-wrap'>
                                     {
                                         respUser?.profile?.skills?.length ? respUser.profile.skills.map((item, index) => <Badge key={index}>{item}</Badge>) : <span>NA</span>
                                     }

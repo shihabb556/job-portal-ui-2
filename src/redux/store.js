@@ -1,25 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "./authSlice";
 import jobSlice from "./jobSlice";
-import {
-    persistReducer,
-    persistStore,  // Import persistStore
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import companySlice from "./companySlice";
 import applicationSlice from "./applicationSlice";
-
-const persistConfig = {
-    key: 'root',
-    version: 1,
-    storage,
-};
 
 const rootReducer = combineReducers({
     auth: authSlice,
@@ -28,18 +11,12 @@ const rootReducer = combineReducers({
     application: applicationSlice,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-            },
+            serializableCheck: false,
         }),
 });
-
-export const persistor = persistStore(store);  // Export persistor
 
 export default store;

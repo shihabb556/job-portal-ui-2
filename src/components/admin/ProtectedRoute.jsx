@@ -2,28 +2,24 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ProtectedRoute = ({children}) => {
-    const {user} = useSelector(store=>store.auth);
+const ProtectedRoute = ({ children }) => {
+    const { user } = useSelector(store => store.auth); // Get the user from the Redux store
     const navigate = useNavigate();
-    let respUser;
-    if(user){
-        respUser = user?.user || {};
-        console.log('resp user: ',respUser)
-    };
 
-
-
-    useEffect(()=>{
-        if(respUser === null || respUser.role !== 'recruiter'){
-            console.log('resp user null')
-            navigate("/");
+    useEffect(() => {
+        // If there's no user or the role is not 'recruiter', redirect to home
+        if (!user || user?.user?.role !== 'recruiter') {
+            console.log('Unauthorized user, redirecting...');
+            navigate("/"); // Redirect to home page or login
         }
-    },[]);
+    }, [user, navigate]);
 
-    return (
-        <>
-        {children}
-        </>
-    )
+    // Only render children if user is authorized
+    if (!user || user?.user?.role !== 'recruiter') {
+        return null; // Optionally, you can show a spinner or a loading state
+    }
+
+    return children;
 };
+
 export default ProtectedRoute;
