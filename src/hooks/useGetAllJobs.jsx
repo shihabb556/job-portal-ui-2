@@ -1,29 +1,45 @@
-import { setAllJobs } from '@/redux/jobSlice'
-import baseApi from '@/utils/baseApi'
-import { BASE_URL, JOB_API_END_POINT } from '@/utils/constant'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { setAllJobs } from "@/redux/jobSlice";
+import baseApi from "@/utils/baseApi";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const useGetAllJobs = () => {
-    const dispatch = useDispatch();
-    const {searchedQuery} = useSelector(store=>store.job);
-    const token = JSON.parse(localStorage.getItem("job-portal_token"));
+  const dispatch = useDispatch();
+  const { searchedQuery } = useSelector((store) => store.job); 
+  const token = JSON.parse(localStorage.getItem("job-portal_token"));
 
-    useEffect(()=>{
-        const fetchAllJobs = async () => {
-            try {
-                const res = await baseApi.get(`/job/get?keyword=${searchedQuery}` );
+  useEffect(() => {
+    const fetchAllJobs = async () => {
+      try {
+        const { keyword, location, category, salary } = searchedQuery;
 
-                if(res.data.success){
-                    dispatch(setAllJobs(res.data.jobs));
-                }
-            } catch (error) {
-                console.log(error);
-            }
+        const queryParams = new URLSearchParams({
+          keyword: keyword || "",
+          location: location || "",
+          category: category || "",
+          salary: salary || "",
+        });
+        console.log(location,category,salary);
+
+        const res = await baseApi.get(`/job/get?${queryParams.toString()}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
+
+        if (res.data.success) {
+          console.log(res?.data?.jobs)
+          dispatch(setAllJobs(res?.data?.jobs));
+        } else {
+          console.error("Failed to fetch jobs:", res.data);
         }
-        fetchAllJobs();
-    },[])
-}
+      } catch (error) {
+        console.error("Error fetching jobs:", error.response || error.message);
+      }
+    };
 
-export default useGetAllJobs
+    fetchAllJobs();
+  }, [searchedQuery]);
+};
+
+export default useGetAllJobs;

@@ -17,25 +17,20 @@ const JobDetails = () => {
     const jobId = params.id;
     const dispatch = useDispatch();
     
-    const {user} = useSelector(store=>store.auth);
-    let respUser,token;
-    if (user) {
-        respUser = user?.user || {};
-        token = user?.token;
-      
-    };
-    const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === respUser?._id) || false;
+    const {user,token} = useSelector(store=>store.auth);
+  
+    const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
     const applyJobHandler = async () => {
-       if(respUser && token){
+       if(user && token){
          try {
                 const res = await baseApi.get(`/application/apply/${jobId}`,         
                 );
                 
                 if(res.data.success){
                     setIsApplied(true); // Update the local state
-                    const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:respUser?._id}]}
+                    const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
                     dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
                     toast.success(res.data.message);
 
@@ -60,7 +55,7 @@ const JobDetails = () => {
 
                 if(res.data.success){
                     dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application=>application.applicant === respUser?._id)) // Ensure the state is in sync with fetched data
+                    setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data
                 }
 
             } catch (error) {
@@ -68,7 +63,7 @@ const JobDetails = () => {
             }
         }
         fetchSingleJob(); 
-    },[jobId,dispatch, respUser?._id]);
+    },[jobId,dispatch, user?._id]);
 
     return (
      <div>
@@ -93,7 +88,7 @@ const JobDetails = () => {
                <h1 className='font-bold my-1 '>Role: <span className='pl-4 font-normal '>{singleJob?.title}</span></h1>
                <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal '>{singleJob?.location}</span></h1>
                <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal '>{singleJob?.experienceLevel} yrs</span></h1>
-               <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal '>{singleJob?.salary} TK</span></h1>
+               <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal '>{singleJob?.salary}k BDT</span></h1>
                <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal '>{singleJob?.applications?.length}</span></h1>
                <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal '>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>

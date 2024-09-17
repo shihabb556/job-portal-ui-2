@@ -1,9 +1,12 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import Navbar from './components/shared/Navbar';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useDispatch } from 'react-redux';
+import { setAdmin, setUser } from './redux/authSlice';
+import useGetAllJobs from './hooks/useGetAllJobs';
 
 // Lazy load components for route-based splitting
 const Home = lazy(() => import('./components/Home'));
@@ -64,6 +67,25 @@ const appRouter = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+ 
+
+  useEffect(() => {
+    // Rehydrate user data
+    const user = JSON.parse(localStorage.getItem('job-portal_user'));
+    const token = JSON.parse(localStorage.getItem('job-portal_token'));
+    if (user && token) {
+      dispatch(setUser({ user, token }));
+    }
+
+    // Rehydrate admin data
+    const admin = JSON.parse(localStorage.getItem('job-portal_admin'));
+    const adminToken = JSON.parse(localStorage.getItem('job-portal_admin-token'));
+    if (admin && adminToken) {
+      dispatch(setAdmin({ admin, adminToken }));
+    }
+  }, [dispatch]);
+
   return (
     <ErrorBoundary FallbackComponent={MyFallbackComponent}>
       <Suspense fallback={<div>Loading...</div>}>

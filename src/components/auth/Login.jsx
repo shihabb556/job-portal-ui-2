@@ -44,7 +44,9 @@ const Login = () => {
               
             });
             if (res?.data?.success) {
-                localStorage.setItem("job-portal_token", JSON.stringify(res?.data?.token));
+                // localStorage.setItem("job-portal_token", JSON.stringify(res?.data?.token));
+                // localStorage.setItem("job-portal_user", JSON.stringify(res?.data?.user));
+                console.log(res.data)
                 dispatch(setUser({ user: res?.data?.user, token: res?.data?.token }));
                 navigate("/");
                 console.log(res?.data);

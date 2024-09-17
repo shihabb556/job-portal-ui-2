@@ -1,53 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
-
-const filterData = [
-    {
-        filterType: "Location",
-        array: ["Dhaka", "Rajshahi", "Sylhet", "Mymensingh", "Rangpur", "Barishal", "Chattogram", "Khulna"]
-    },
-    {
-        filterType: "Industry",
-        array: ["Frontend Developer", "Backend Developer", "FullStack Developer"]
-    },
-    {
-        filterType: "Salary",
-        array: ["20,000tk - 40,000tk", "42,000tk - 1,00,000tk", "1,00,000tk - 5,00,000tk"]
-    }
-];
+import { Location, Salary, Industry } from '@/utils/constant';
 
 const FilterCard = ({ isOpen }) => {
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedSalary, setSelectedSalary] = useState('');
+    const [expandedCategory, setExpandedCategory] = useState(null); // For collapsible functionality
     const dispatch = useDispatch();
+  console.log(selectedCategory,selectedLocation,selectedSalary)
+    useEffect(() => {
+        dispatch(setSearchedQuery({
+            location: selectedLocation,
+            category: selectedCategory,
+            salary: selectedSalary
+        }));
+    }, [selectedLocation, selectedCategory, selectedSalary, dispatch]);
 
-    const changeHandler = (value) => {
-        setSelectedValue(value);
+    // Toggle collapsible category
+    const handleCategoryToggle = (category) => {
+        setExpandedCategory(prevCategory => (prevCategory === category ? null : category));
     };
 
-    useEffect(() => {
-        dispatch(setSearchedQuery(selectedValue));
-    }, [selectedValue, dispatch]);
-
     return (
-        <div className={`  bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden sm:block'}`}>
+        <div className={`bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden sm:block'}`} style={{ maxHeight: '500px', overflowY: 'auto' }}>
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
             <hr className='mt-3' />
-            <RadioGroup className='flex sm:flex-col flex-wrap' value={selectedValue} onValueChange={changeHandler}>
-                {filterData.map((data, index) => (
-                    <div key={index}>
-                        <h1 className='font-bold text-md'>{data.filterType}</h1>
-                        {data.array.map((item, idx) => {
-                            const itemId = `id${index}-${idx}`;
-                            return (
-                                <div key={idx} className='flex items-center space-x-2 my-2'>
-                                    <RadioGroupItem value={item} id={itemId} />
-                                    <Label htmlFor={itemId}>{item}</Label>
-                                </div>
-                            );
-                        })}
+
+            {/* Location Filter */}
+            <h2 className='font-bold text-md mt-3'>Location</h2>
+            <RadioGroup value={selectedLocation} onValueChange={setSelectedLocation}>
+                {Location.map((location, idx) => (
+                    <div key={idx} className='flex items-center space-x-2 my-2'>
+                        <RadioGroupItem value={location} id={`location-${idx}`} />
+                        <Label htmlFor={`location-${idx}`}>{location}</Label>
+                    </div>
+                ))}
+            </RadioGroup>
+
+            {/* Industry Filter */}
+            <h2 className='font-bold text-md mt-3'>Industry</h2>
+            <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className='pl-4'>
+             { Industry.map((categoryItem, idx) => (
+                 <div key={idx} className='flex items-center space-x-2 my-2'>
+                     <RadioGroupItem value={categoryItem} id={`category-${idx}}`} />
+                     <Label htmlFor={`category-${idx}`}>{categoryItem}</Label>
+                  </div>
+              ))}
+            </RadioGroup>
+
+            {/* Salary Filter */}
+            <h2 className='font-bold text-md mt-3'>Salary</h2>
+            <RadioGroup value={selectedSalary} onValueChange={setSelectedSalary}>
+                {Salary.map((salaryRange, idx) => (
+                    <div key={idx} className='flex items-center space-x-2 my-2'>
+                        <RadioGroupItem value={salaryRange} id={`salary-${idx}`} />
+                        <Label htmlFor={`salary-${idx}`}>{salaryRange}</Label>
                     </div>
                 ))}
             </RadioGroup>

@@ -1,13 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MarkdownViewer from './shared/MarkdownViewer';
 import { BASE_URL } from '@/utils/constant';
 import Navbar from './shared/Navbar';
 
-const categories = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'MongoDB', 'SQL'];
+// Added 'All' as the first category option
+const categories = ['All', 'HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'MongoDB', 'SQL'];
 
 const InterviewQna = () => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState('All');  // Default is 'All'
   const [qnaData, setQnaData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,9 +21,9 @@ const InterviewQna = () => {
       setError(null);
 
       try {
-        const response = await axios.get(`${BASE_URL}/interview/qna?category=${selectedCategory}`);
+        // Request data for the selected category, or all if 'All' is selected
+        const response = await axios.get(`${BASE_URL}/interview-prep-qna/?category=${selectedCategory}`);
         setQnaData(response.data);
-        console.log(qnaData)
       } catch (err) {
         setError('Failed to load Q&A data');
       } finally {
@@ -34,7 +36,7 @@ const InterviewQna = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className='p-6'>
         <h2>Interview Preparation Q&A</h2>
 
@@ -59,7 +61,7 @@ const InterviewQna = () => {
           {loading && <p>Loading...</p>}
           {error && <p>{error}</p>}
           {!loading && !error && qnaData.length === 0 && (
-            <p>No Q&A content available for {selectedCategory}.</p>
+            <p>No Q&A content available for {selectedCategory === 'All' ? 'any category' : selectedCategory}.</p>
           )}
           {!loading && !error && qnaData.length > 0 && (
             <div>

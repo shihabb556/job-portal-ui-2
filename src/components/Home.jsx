@@ -1,14 +1,16 @@
 import React, { Suspense } from 'react';
 import Navbar from './shared/Navbar'; // Load essential components directly
 import Footer from './shared/Footer';
+import useGetAllJobs from '@/hooks/useGetAllJobs';
 const HeroSection = React.lazy(() => import('./HeroSection'));
 const CategoryCarousel = React.lazy(() => import('./CategoryCarousel'));
 const LatestJobs = React.lazy(() => import('./LatestJobs'));
-import useGetAllJobs from '@/hooks/useGetAllJobs';
+
 
 const Home = () => {
   // Fetch jobs data
   useGetAllJobs();
+
 
   return (
     <div className='relative'>

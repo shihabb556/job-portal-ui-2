@@ -1,74 +1,48 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './shared/Navbar';
 import FilterCard from './FilterCard';
 import JobCard from './JobCard';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
+import useGetAllJobs from '@/hooks/useGetAllJobs';
 
 const Jobs = () => {
+    // Fetch all jobs
+    useGetAllJobs();
+    
     const { allJobs, searchedQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState([]); // Displayed jobs
     const [page, setPage] = useState(1); // Current page
     const [loading, setLoading] = useState(false); // Loading state
     const [hasMore, setHasMore] = useState(true); // Check if there are more jobs to load
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // Filter sidebar state
 
-    const jobsPerPage = 3; // Number of jobs per batch
 
-    // Memoized filtered jobs based on search query
+    // Memoized filtered jobs based on search query with safety checks for undefined values
     const filteredJobs = React.useMemo(() => {
-        if (!searchedQuery) {
-            // If no search query, return all jobs
-            return allJobs;
-        }
-        return allJobs.filter((job) => {
-            return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                job.location.toLowerCase().includes(searchedQuery.toLowerCase());
+        return allJobs.filter(job => {
+            const matchesLocation = searchedQuery.location
+                ? job.location?.toLowerCase() === searchedQuery.location.toLowerCase()
+                : true;
+            const matchesCategory = searchedQuery.category
+                ? job.category?.toLowerCase() === searchedQuery.category.toLowerCase()
+                : true;
+            const matchesSalary = searchedQuery.salary
+                ? job.salaryRange === searchedQuery.salary
+                : true;
+
+            return matchesLocation && matchesCategory && matchesSalary;
         });
     }, [allJobs, searchedQuery]);
 
-    // Load jobs when page changes or filtered jobs are updated
-    useEffect(() => {
-        loadJobs(page);
-    }, [page, filteredJobs]);
 
-    const loadJobs = (pageNum) => {
-        if (loading) return; // Prevent loading if already loading
-
-        setLoading(true);
-        const newJobs = filteredJobs.slice((pageNum - 1) * jobsPerPage, pageNum * jobsPerPage);
-
-        if (newJobs.length < jobsPerPage) {
-            setHasMore(false); // No more jobs to load
-        }
-
-        setFilterJobs(prevJobs => [...prevJobs, ...newJobs]);
-        setLoading(false);
-    };
 
     // Handle sidebar toggle for mobile
     const handleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
-    // Scroll detection to load more jobs when near the bottom
-    const handleScroll = useCallback(() => {
-        const scrollHeight = document.documentElement.scrollHeight;
-        const scrollTop = document.documentElement.scrollTop;
-        const clientHeight = document.documentElement.clientHeight;
-
-        if (scrollTop + clientHeight >= scrollHeight - 10 && !loading && hasMore) {
-            setPage(prevPage => prevPage + 1);
-        }
-    }, [loading, hasMore]);
-
-    // Add scroll event listener
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [handleScroll]);
 
     return (
         <div>
@@ -76,8 +50,10 @@ const Jobs = () => {
             <div className='max-w-5xl p-4 mx-auto mt-5'>
                 <div className='flex flex-col sm:flex-row gap-5'>
                     {/* Filter section */}
-                    <div className='relative sm:mt-[-15px] w-full sm:w-[30%] md:w-[34%] lg:w-[20%]'>
-                        <Button className='block sm:hidden w-[7em] mb-4' onClick={handleSidebar}>Filter</Button>
+                    <div className='relative sm:mt-[-15px] w-full sm:w-[30%] md:w-[34%] lg:w-[30%]'>
+                        <Button className='block sm:hidden w-[7em] mb-4' onClick={handleSidebar}>
+                            Filter
+                        </Button>
                         <FilterCard isOpen={isOpen} />
                     </div>
 
@@ -93,7 +69,7 @@ const Jobs = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -100 }}
                                         transition={{ duration: 0.3 }}
-                                        key={job.id || idx} // Ensure unique key for each job
+                                        key={job.id || idx}
                                     >
                                         <JobCard job={job} />
                                     </motion.div>

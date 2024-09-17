@@ -15,10 +15,7 @@ import { toast } from 'sonner';
 
 const Navbar = () => {
     const { user } = useSelector(store => store.auth);
-    let respUser;
-    if (user) {
-        respUser = user?.user || {};
-    };
+  
 
 
     return (
@@ -32,7 +29,7 @@ const Navbar = () => {
                 <div className='flex items-center gap-3 md:gap-8 '>
                     <ul className='flex font-medium items-center text-sm sm:text-md gap-5'>
                         {
-                            respUser && respUser.role === 'recruiter' ? (
+                            user && user.role === 'recruiter' ? (
                                 <>
                                     <li><Link to="/admin/companies">Companies</Link></li>
                                     <li><Link to="/admin/jobs">Jobs</Link></li>
@@ -49,7 +46,7 @@ const Navbar = () => {
 
                     </ul>
                     {
-                        !respUser ? (
+                        !user ? (
                             <div className='flex items-center gap-2'>
                                 <Link to="/login"><Button sixe='sm' variant="outline">Login</Button></Link>
                                 <Link to="/signup"><Button size='sm' className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button></Link>
@@ -58,23 +55,23 @@ const Navbar = () => {
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Avatar className="cursor-pointer">
-                                        <AvatarImage src={respUser?.profile?.profilePhoto} alt="@shadcn" />
+                                        <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
                                     <div className=''>
                                         <Link to={"/profile"} className='flex gap-2 space-y-2 border-b-2 border-b- p-2'>
                                             <Avatar className="cursor-pointer">
-                                                <AvatarImage src={respUser?.profile?.profilePhoto} alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                             </Avatar>
                                                 <div>
-                                                <h4 className='font-medium'>{respUser?.fullname}</h4>
+                                                <h4 className='font-medium'>{user?.fullname}</h4>
                                             </div>
                                         </Link>
                                         
                                         <div className='flex flex-col my-2 text-gray-600'>
                                             {
-                                                respUser && respUser.role === 'student' && (
+                                                user && user.role === 'student' && (
                                                     <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
                                                       <ul className='flex gap-2 flex-col'>
                                                         <li>  
