@@ -1,27 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './shared/Navbar';
 import FilterCard from './FilterCard';
 import JobCard from './JobCard';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
+import { Input } from './ui/input';
 import { Button } from './ui/button';
+import Pagination from './Pagination';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
+import { setCurrentPage } from '@/redux/jobSlice';
 
 const Jobs = () => {
-    // Fetch all jobs
-    useGetAllJobs();
-    
-    const { allJobs, searchedQuery } = useSelector(store => store.job);
-    const [filterJobs, setFilterJobs] = useState([]); // Displayed jobs
-    const [loading, setLoading] = useState(false); // Loading state
-    const [hasMore, setHasMore] = useState(true); // Check if there are more jobs to load
-    const [isOpen, setIsOpen] = useState(false); // Filter sidebar state
-    const [isItemClick, setIsItemClick ] = useState(false);
+    const dispatch = useDispatch();
+    const scrollableDivRef = useRef(null); // Create a reference to the scrollable div
 
- 
-    // Memoized filtered jobs based on search query with safety checks for undefined values
+    useGetAllJobs();
+
+    const { allJobs, searchedQuery, pagination } = useSelector(store => ({
+        allJobs: store.job.allJobs,
+        searchedQuery: store.job.searchedQuery,
+        pagination: store.job.pagination,
+    }));
+
+    const [filterJobs, setFilterJobs] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isItemClick, setIsItemClick] = useState(false);
+
     const filteredJobs = React.useMemo(() => {
-        if (!allJobs || !Array.isArray(allJobs)) return []; // Ensure allJobs is an array
+        setLoading(true);
+        if (!allJobs || !Array.isArray(allJobs)) return [];
+
         return allJobs.filter(job => {
             const matchesLocation = searchedQuery.location
                 ? job.location?.toLowerCase() === searchedQuery.location.toLowerCase()
@@ -31,70 +41,88 @@ const Jobs = () => {
                 : true;
             const matchesSalary = searchedQuery.salary
                 ? job.salary >= searchedQuery.salary
-                : true; 
-            const matchesKeyword = searchedQuery.keyword
-            ? job.title >= searchedQuery.keyword
-            : true; 
+                : true;
 
-            return matchesLocation && matchesCategory && matchesSalary && matchesKeyword;
+            const matchesSearchQuery = searchQuery
+                ? job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  job.company?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  job.description?.toLowerCase().includes(searchQuery.toLowerCase())
+                : true;
+
+            return matchesLocation && matchesCategory && matchesSalary && matchesSearchQuery;
         });
-    }, [allJobs, searchedQuery]);
+    }, [allJobs, searchedQuery, searchQuery]);
 
-    // Update filterJobs when filteredJobs changes
     useEffect(() => {
         setFilterJobs(filteredJobs);
+        setLoading(false);
     }, [filteredJobs]);
 
-    // Handle sidebar toggle for mobile
     const handleSidebar = () => {
         setIsOpen(!isOpen);
         setIsItemClick(false);
     };
-//  console.log(filteredJobs)
+
+  
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-5xl p-4 mx-auto mt-5'>
+            <div className='max-w-7xl p-4 mx-auto mt-5 h-[75vh]'>
                 <div className='flex flex-col sm:flex-row gap-5'>
-                    {/* Filter section */}
                     <div className='relative sm:mt-[-15px] w-full sm:w-[30%] md:w-[34%] lg:w-[30%]'>
                         <Button className='block sm:hidden w-[7em] mb-4' onClick={handleSidebar}>
                             Filter
                         </Button>
-                        <FilterCard 
-                           isOpen={isOpen} isItemClick={isItemClick}
-                           setIsItemClick={setIsItemClick} 
-                        />
+                        <FilterCard isOpen={isOpen} isItemClick={isItemClick} setIsItemClick={setIsItemClick} />
                     </div>
 
-                    {/* Job list section */}
-                    {filterJobs.length <= 0 && !loading ? (
-                        <span>Job not found</span>
-                    ) : (
-                        <div className='flex-1 h-[88vh] overflow-y-auto no-scrollbar p-5'>
-                            <div className='grid xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-4'>
-                                {filterJobs.map((job, idx) => (
-                                    <motion.div
-                                        initial={{ opacity: 0, x: 100 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -100 }}
-                                        transition={{ duration: 0.3 }}
-                                        key={job.id || idx}
-                                    >
-                                        <JobCard job={job} />
-                                    </motion.div>
-                                ))}
-                            </div>
-                            {loading && (
-                                <div className="flex justify-center mt-5">
-                                    <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin"></div>
-                                </div>
-                            )}
-                            {!hasMore && <p className="text-center text-gray-500">No more jobs to load</p>}
+                    <div className="flex-1">
+                        <div className='flex w-[86%] md:w-[70%] shadow-lg border border-gray-400 rounded-[7px] items-center gap-4 mx-auto mb-5'>
+                            <Input
+                                type="text"
+                                placeholder="Search jobs by title or company..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="outline-none focus:outline-none border-none w-full"
+                            />
                         </div>
-                    )}
+
+                        {loading && (
+                            <div className="flex justify-center mt-5">
+                                <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin m-10 mx-[10vw]"></div>
+                            </div>
+                        )}
+
+                        {filterJobs && filterJobs.length > 0 ? (
+                            <div
+                                ref={scrollableDivRef} // Attach the reference here
+                                className='flex-1 h-[68vh] overflow-y-auto no-scrollbar p-5'
+                            >
+                                <div className='grid xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-4'>
+                                    {filterJobs.map((job, idx) => (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 100 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -100 }}
+                                            transition={{ duration: 0.3 }}
+                                            key={job.id || idx}
+                                        >
+                                            <JobCard job={job} />
+                                        </motion.div>
+                                    ))}
+                                </div>
+                              
+                            </div>
+                        ) : (
+                            !loading && <div className='m-10'> Job not Found! </div>
+                        )}
+                    </div>
                 </div>
+
+                <Pagination
+                    scrollableDivRef={scrollableDivRef} // Pass the reference here
+                />
             </div>
         </div>
     );

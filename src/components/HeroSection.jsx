@@ -10,10 +10,10 @@ const HeroSection = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const searchJobHandler = () => {
-        dispatch(setSearchedQuery({  keyword:query}));
-        navigate("/browse");
-    }
+    // const searchJobHandler = () => {
+    //     dispatch(setSearchedQuery({  keyword:query}));
+    //     navigate("/browse");
+    // }
 
     return (
         <div className='text-center flex py-6 md:py-12 flex-col md:flex-row'>
@@ -26,16 +26,9 @@ const HeroSection = () => {
                     Discover endless opportunities and take the next step in your career. 
                     Your dream job is just a click away!
                 </p>
-                <div className='flex w-[86%] md:w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto'>
-                    <input
-                        type="text"
-                        placeholder='Find your dream jobs'
-                        onChange={(e) => setQuery(e.target.value)}
-                        className='outline-none border-none w-full'
-
-                    />
-                    <Button onClick={searchJobHandler} className="  rounded-r-full bg-[#6A38C2]">
-                        <Search className='h-5 w-5' />
+                <div className='flex w-[86%] md:w-[40%] mx-auto'>
+                    <Button onClick={()=>navigate('/jobs')} className="rounded bg-[#6A38C2]">
+                       Browse Jobs
                     </Button>
                 </div>
             </div>

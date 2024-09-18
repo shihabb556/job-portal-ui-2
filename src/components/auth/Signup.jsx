@@ -106,7 +106,7 @@ const Signup = () => {
                             required
                         />
                     </div>
-                    <div className='my-2'>
+                    {/* <div className='my-2'>
                         <Label>Phone Number</Label>
                         <Input
                             type="text"
@@ -115,7 +115,7 @@ const Signup = () => {
                             onChange={changeEventHandler}
                             placeholder="+880-1770419***"
                         />
-                    </div>
+                    </div> */}
                     <div className='my-2'>
                         <Label>Password</Label>
                         <Input

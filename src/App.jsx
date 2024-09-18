@@ -85,17 +85,15 @@ function App() {
       dispatch(setUser({ user, token }));
     }
 
-    // Rehydrate admin data
-    const admin = JSON.parse(localStorage.getItem('job-portal_admin'));
-    const adminToken = JSON.parse(localStorage.getItem('job-portal_admin-token'));
-    if (admin && adminToken) {
-      dispatch(setAdmin({ admin, adminToken }));
-    }
   }, [dispatch]);
 
   return (
     <ErrorBoundary FallbackComponent={MyFallbackComponent}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={
+         <div className="flex justify-center mt-5">
+           <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin m-10"></div>
+        </div>
+      }>
         <RouterProvider router={appRouter} />
       </Suspense>
     </ErrorBoundary>

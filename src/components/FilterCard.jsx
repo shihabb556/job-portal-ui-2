@@ -28,13 +28,13 @@ const FilterCard = ({ isOpen,isItemClick,setIsItemClick }) => {
   
 
     return (
-        <div className={`w-[100%] bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden sm:block'} ${isItemClick && 'hidden sm:block'}`} style={{ maxHeight: '500px', overflowY: 'auto' }}>
+        <div className={`w-[100%] bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden sm:block'} ${isItemClick && 'hidden sm:block'}`} >
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
             <hr className='mt-3' />
 
             {/* Location Filter */}
             <h2 className='font-bold text-md mt-3'>Location</h2>
-            <RadioGroup value={selectedLocation} onValueChange={setSelectedLocation}>
+            <RadioGroup value={selectedLocation} onValueChange={setSelectedLocation} className='overflow-y-auto max-h-[150px]'>
                 {Location.map((location, idx) => (
                     <div key={idx} className='flex items-center space-x-2 my-2'>
                         <RadioGroupItem value={location} id={`location-${idx}`} onClick={()=>setIsItemClick(true)}  />
@@ -45,7 +45,7 @@ const FilterCard = ({ isOpen,isItemClick,setIsItemClick }) => {
 
             {/* Industry Filter */}
             <h2 className='font-bold text-md mt-3'>Industry</h2>
-            <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className='pl-4'>
+            <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className='pl-4 overflow-y-auto max-h-[150px]'>
              { Industry.map((categoryItem, idx) => (
                  <div key={idx} className='flex items-center space-x-2 my-2'>
                      <RadioGroupItem value={categoryItem} id={`category-${idx}}`} onClick={()=>setIsItemClick(true)} />
@@ -55,7 +55,7 @@ const FilterCard = ({ isOpen,isItemClick,setIsItemClick }) => {
             </RadioGroup>
 
             {/* Salary Filter */}
-            <h2 className='font-bold text-md mt-3'>Salary</h2>
+            {/* <h2 className='font-bold text-md mt-3'>Salary</h2>
             <RadioGroup value={selectedSalary} onValueChange={setSelectedSalary}>
                 {Salary.map((salaryRange, idx) => (
                     <div key={idx} className='flex items-center space-x-2 my-2'>
@@ -63,7 +63,7 @@ const FilterCard = ({ isOpen,isItemClick,setIsItemClick }) => {
                         <Label htmlFor={`salary-${idx}`}>{salaryRange}k bdt</Label>
                     </div>
                 ))}
-            </RadioGroup>
+            </RadioGroup> */}
         </div>
     );
 };
