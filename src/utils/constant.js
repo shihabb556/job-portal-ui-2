@@ -1,17 +1,17 @@
-// export const USER_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
-// export const JOB_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
-// export const APPLICATION_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
-// export const COMPANY_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
-// export const BASE_URL = "https://job-portal-server-01.vercel.app/api/v1";
+export const USER_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
+export const JOB_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
+export const APPLICATION_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
+export const COMPANY_API_END_POINT="https://job-portal-server-01.vercel.app/api/v1";
+export const BASE_URL = "https://job-portal-server-01.vercel.app/api/v1";
 
 
 //for development mode
 
-export const USER_API_END_POINT="http://localhost:8000/api/v1";
-export const JOB_API_END_POINT="http://localhost:8000/api/v1";
-export const APPLICATION_API_END_POINT="http://localhost:8000/api/v1";
-export const COMPANY_API_END_POINT="http://localhost:8000/api/v1";
-export const BASE_URL = "http://localhost:8000/api/v1";
+// export const USER_API_END_POINT="http://localhost:8000/api/v1";
+// export const JOB_API_END_POINT="http://localhost:8000/api/v1";
+// export const APPLICATION_API_END_POINT="http://localhost:8000/api/v1";
+// export const COMPANY_API_END_POINT="http://localhost:8000/api/v1";
+// export const BASE_URL = "http://localhost:8000/api/v1";
 
 
 
@@ -125,7 +125,7 @@ export const filterData = [
  export const Location = ["Dhaka", "Rajshahi", "Sylhet", "Mymensingh", "Rangpur", "Barishal", "Chattogram", "Khulna"]
 
 
-export const Salary = ["20k - 30k bdt","35k - 45k bdt","50k - 70k bdt","75k - 100k bdt","125k - 200k bdt"]
+export const Salary = [20,35,55,75,125]
 
 
 export const Industry =[

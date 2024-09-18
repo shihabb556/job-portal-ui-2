@@ -10,6 +10,7 @@ const CompaniesTable = () => {
     const { companies, searchCompanyByText } = useSelector(store => store.company);
     const [filterCompany, setFilterCompany] = useState(companies);
     const navigate = useNavigate();
+
     useEffect(()=>{
         const filteredCompany = companies.length >= 0 && companies.filter((company)=>{
             if(!searchCompanyByText){
@@ -19,7 +20,8 @@ const CompaniesTable = () => {
 
         });
         setFilterCompany(filteredCompany);
-    },[companies,searchCompanyByText])
+    },[companies,searchCompanyByText]);
+
     return (
         <div>
             <Table>
@@ -47,7 +49,7 @@ const CompaniesTable = () => {
                                     <Popover>
                                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                                         <PopoverContent className="w-32">
-                                            <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
+                                            <div onClick={()=> navigate(`/recruiter/company/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                                                 <Edit2 className='w-4' />
                                                 <span>Edit</span>
                                             </div>

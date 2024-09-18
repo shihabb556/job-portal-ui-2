@@ -4,12 +4,12 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button' 
 import { useNavigate } from 'react-router-dom' 
 import { useDispatch } from 'react-redux' 
-import AdminJobsTable from './AdminJobsTable'
-import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
+import RecruiterJobsTable from './RecruiterJobsTable'
+import useGetAllRecruiterJobs from '@/hooks/useGetAllRecruiterJobs'
 import { setSearchJobByText } from '@/redux/jobSlice'
 
-const AdminJobs = () => {
-  useGetAllAdminJobs();
+const RecruiterJobs = () => {
+  useGetAllRecruiterJobs();
   const [input, setInput] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,22 +17,24 @@ const AdminJobs = () => {
   useEffect(() => {
     dispatch(setSearchJobByText(input));
   }, [input]);
+
   return (
     <div>
       <Navbar />
-      <div className='max-w-6xl mx-auto my-10'>
+      <div className='max-w-6xl mx-auto my-10 p-5'>
         <div className='flex items-center justify-between my-5'>
           <Input
             className="w-fit"
             placeholder="Filter by name, role"
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button onClick={() => navigate("/admin/jobs/create")}>New Jobs</Button>
+          <Button onClick={() => navigate("/recruiter/job/create")}>New Jobs</Button>
         </div>
-        <AdminJobsTable />
+        <h2>A list of your recent  posted jobs</h2>
+        <RecruiterJobsTable />
       </div>
     </div>
   )
 }
 
-export default AdminJobs
+export default RecruiterJobs;

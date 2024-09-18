@@ -31,8 +31,8 @@ const Navbar = () => {
                         {
                             user && user.role === 'recruiter' ? (
                                 <>
-                                    <li><Link to="/admin/companies">Companies</Link></li>
-                                    <li><Link to="/admin/jobs">Jobs</Link></li>
+                                    <li><Link to="/recruiter/companies">Companies</Link></li>
+                                    <li><Link to="/recruiter/jobs">Jobs</Link></li>
                                 </>
                             ) : (
                                 <>
@@ -71,7 +71,7 @@ const Navbar = () => {
                                         
                                         <div className='flex flex-col my-2 text-gray-600'>
                                             {
-                                                user && user.role === 'student' && (
+                                                user && user?.role === 'student' && (
                                                     <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
                                                       <ul className='flex gap-2 flex-col'>
                                                         <li>  
@@ -89,6 +89,24 @@ const Navbar = () => {
                                                       </ul>
                                                     </div>
                                                 )
+                                            }
+                                              {  user && user?.role === 'recruiter' && (
+                                                    <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
+                                                      <ul className='flex gap-2 flex-col'>
+                                                        <li>  
+                                                            <Link to="/recruiter/companies">Companies</Link>
+                                                        </li>
+                                                        <li>  
+                                                            <Link to="/recruiter/jobs">Jobs</Link>
+                                                        </li>
+                                                        <li>  
+                                                            <Link to="/profile">Profile</Link>
+                                                        </li>
+                                                      
+                                                      </ul>
+                                                    </div>
+                                                )
+                                            
                                             }
 
                                         </div>

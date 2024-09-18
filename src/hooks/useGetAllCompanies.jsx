@@ -13,7 +13,7 @@ const useGetAllCompanies = () => {
                 const res = await baseApi.get(`/company/get`);
                 console.log('called');
                 if(res.data.success){
-                    dispatch(setCompanies(res.data.companies));
+                    dispatch(setCompanies(res.data?.companies));
                 }
             } catch (error) {
                 console.log(error);

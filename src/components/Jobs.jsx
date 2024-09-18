@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './shared/Navbar';
 import FilterCard from './FilterCard';
 import JobCard from './JobCard';
@@ -13,14 +13,15 @@ const Jobs = () => {
     
     const { allJobs, searchedQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState([]); // Displayed jobs
-    const [page, setPage] = useState(1); // Current page
     const [loading, setLoading] = useState(false); // Loading state
     const [hasMore, setHasMore] = useState(true); // Check if there are more jobs to load
     const [isOpen, setIsOpen] = useState(false); // Filter sidebar state
+    const [isItemClick, setIsItemClick ] = useState(false);
 
-
+ 
     // Memoized filtered jobs based on search query with safety checks for undefined values
     const filteredJobs = React.useMemo(() => {
+        if (!allJobs || !Array.isArray(allJobs)) return []; // Ensure allJobs is an array
         return allJobs.filter(job => {
             const matchesLocation = searchedQuery.location
                 ? job.location?.toLowerCase() === searchedQuery.location.toLowerCase()
@@ -29,20 +30,27 @@ const Jobs = () => {
                 ? job.category?.toLowerCase() === searchedQuery.category.toLowerCase()
                 : true;
             const matchesSalary = searchedQuery.salary
-                ? job.salaryRange === searchedQuery.salary
-                : true;
+                ? job.salary >= searchedQuery.salary
+                : true; 
+            const matchesKeyword = searchedQuery.keyword
+            ? job.title >= searchedQuery.keyword
+            : true; 
 
-            return matchesLocation && matchesCategory && matchesSalary;
+            return matchesLocation && matchesCategory && matchesSalary && matchesKeyword;
         });
     }, [allJobs, searchedQuery]);
 
-
+    // Update filterJobs when filteredJobs changes
+    useEffect(() => {
+        setFilterJobs(filteredJobs);
+    }, [filteredJobs]);
 
     // Handle sidebar toggle for mobile
     const handleSidebar = () => {
         setIsOpen(!isOpen);
+        setIsItemClick(false);
     };
-
+//  console.log(filteredJobs)
 
     return (
         <div>
@@ -54,7 +62,10 @@ const Jobs = () => {
                         <Button className='block sm:hidden w-[7em] mb-4' onClick={handleSidebar}>
                             Filter
                         </Button>
-                        <FilterCard isOpen={isOpen} />
+                        <FilterCard 
+                           isOpen={isOpen} isItemClick={isItemClick}
+                           setIsItemClick={setIsItemClick} 
+                        />
                     </div>
 
                     {/* Job list section */}

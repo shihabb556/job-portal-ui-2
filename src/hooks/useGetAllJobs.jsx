@@ -27,14 +27,15 @@ const useGetAllJobs = () => {
           },
         });
 
-        if (res.data.success) {
-          console.log(res?.data?.jobs)
-          dispatch(setAllJobs(res?.data?.jobs));
+        if (res?.data?.success) {
+          // console.log('from usegetalljobs',res?.data?.jobs)
+          dispatch(setAllJobs(res?.data?.jobs ));
         } else {
           console.error("Failed to fetch jobs:", res.data);
+          dispatch(setAllJobs([]));
         }
       } catch (error) {
-        console.error("Error fetching jobs:", error.response || error.message);
+        console.error("Error fetching jobs:", error || error);
       }
     };
 

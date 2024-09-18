@@ -12,9 +12,9 @@ import { toast } from 'sonner'
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
-    const { user,token} = useSelector(store => store?.auth?.user);
+    const { user,token} = useSelector(store => store?.auth);
     // const token = JSON.parse(localStorage.getItem("job-portal_token"));
-
+console.log(user, token)
     const [input, setInput] = useState({
         fullname: user?.fullname || "",
         email: user?.email || "",
@@ -120,7 +120,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className="col-span-3"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
+                           {
+                            user && user?.role === 'recruiter' ? '' : (
+                                <>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="bio" className="text-right">Bio</Label>
                                 <Input
                                     id="bio"
@@ -129,33 +132,36 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     onChange={changeEventHandler}
                                     className="col-span-3"
                                 />
-                            </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="skills" className="text-right">Skills</Label>
-                                <Input
-                                    id="skills"
-                                    name="skills"
-                                    value={input.skills}
-                                    onChange={changeEventHandler}
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <p className='text-[14px] text-red-500 pl-8'>
-                                Please enter the link of your resume. 
-                                You can upload your resume to Google Drive, make it publicly accessible, 
-                                then copy the link and paste it into the input field below.
-                            </p>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="file" className="text-right">Resume</Label>
-                                <Input
-                                    id="resume"
-                                    name="resume"
-                                    type="text"
-                                    value={input.resume}
-                                    onChange={changeEventHandler}
-                                    className="col-span-3"
-                                />
-                            </div>
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor="skills" className="text-right">Skills</Label>
+                                        <Input
+                                            id="skills"
+                                            name="skills"
+                                            value={input.skills}
+                                            onChange={changeEventHandler}
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                    <p className='text-[14px] text-red-500 pl-8'>
+                                        Please enter the link of your resume. 
+                                        You can upload your resume to Google Drive, make it publicly accessible, 
+                                        then copy the link and paste it into the input field below.
+                                    </p>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor="file" className="text-right">Resume</Label>
+                                        <Input
+                                            id="resume"
+                                            name="resume"
+                                            type="text"
+                                            value={input.resume}
+                                            onChange={changeEventHandler}
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                </>
+                            )
+                           }
                         </div>
                         <DialogFooter>
                             {

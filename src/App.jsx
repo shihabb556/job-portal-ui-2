@@ -1,12 +1,12 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import ProtectedRoute from './components/admin/ProtectedRoute';
-import Navbar from './components/shared/Navbar';
+import ProtectedRoute from './components/recruiter/ProtectedRoute';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useDispatch } from 'react-redux';
 import { setAdmin, setUser } from './redux/authSlice';
-import useGetAllJobs from './hooks/useGetAllJobs';
+import NotFound from './components/NotFound';
+
 
 // Lazy load components for route-based splitting
 const Home = lazy(() => import('./components/Home'));
@@ -18,13 +18,15 @@ const Browse = lazy(() => import('./components/Browse'));
 const JobDetails = lazy(() => import('./components/JobDetails'));
 const InterviewQna = lazy(() => import('./components/InterviewQna'));
 
-// Lazy load admin components
-const Companies = lazy(() => import('./components/admin/Companies'));
-const CompanyCreate = lazy(() => import('./components/admin/CompanyCreate'));
-const CompanySetup = lazy(() => import('./components/admin/CompanySetup'));
-const AdminJobs = lazy(() => import('./components/admin/AdminJobs'));
-const PostJob = lazy(() => import('./components/admin/PostJob'));
-const Applicants = lazy(() => import('./components/admin/Applicants'));
+// Lazy load recruiter components
+const Companies = lazy(() => import('./components/recruiter/Companies'));
+const CompanyCreate = lazy(() => import('./components/recruiter/CompanyCreate'));
+const CompanySetup = lazy(() => import('./components/recruiter/CompanySetup'));
+const RecruiterJobs = lazy(() => import('./components/recruiter/RecruiterJobs'));
+const PostJob = lazy(() => import('./components/recruiter/PostJob'));
+const Applicants = lazy(() => import('./components/recruiter/Applicants'));
+const EditJob = lazy(() => import('./components/recruiter/EditJob'));
+
 
 const MyFallbackComponent = () => <div>Something went wrong.</div>;
 
@@ -38,30 +40,35 @@ const appRouter = createBrowserRouter([
   { path: '/browse', element: <Browse /> },
   { path: '/job/:id', element: <JobDetails /> },
   { path: '/interview-prep/qna', element: <InterviewQna /> },
+  {path:'*', element: <NotFound/>},
 
-  // Admin routes with ProtectedRoute
+  // recruiter routes with ProtectedRoute
   {
-    path: '/admin/companies',
+    path: '/recruiter/companies',
     element: <ProtectedRoute><Companies /></ProtectedRoute>,
   },
   {
-    path: '/admin/companies/create',
+    path: '/recruiter/company/create',
     element: <ProtectedRoute><CompanyCreate /></ProtectedRoute>,
   },
   {
-    path: '/admin/companies/:id',
+    path: '/recruiter/company/:id',
     element: <ProtectedRoute><CompanySetup /></ProtectedRoute>,
   },
   {
-    path: '/admin/jobs',
-    element: <ProtectedRoute><AdminJobs /></ProtectedRoute>,
+    path: '/recruiter/jobs',
+    element: <ProtectedRoute><RecruiterJobs /></ProtectedRoute>,
   },
   {
-    path: '/admin/jobs/create',
+    path: '/recruiter/job/create',
     element: <ProtectedRoute><PostJob /></ProtectedRoute>,
   },
   {
-    path: '/admin/jobs/:id/applicants',
+    path: '/recruiter/job/edit/:jobId',
+    element: <ProtectedRoute><EditJob /></ProtectedRoute>,
+  },
+  {
+    path: '/recruiter/job/:id/applicants',
     element: <ProtectedRoute><Applicants /></ProtectedRoute>,
   },
 ]);

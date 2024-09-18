@@ -22,7 +22,7 @@ const CompanySetup = () => {
         location: "",
         file: ''
     });
-    const {singleCompany} = useSelector(store=>store.company);
+    const {singleCompany} = useSelector(store=>store?.company);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -40,10 +40,10 @@ const CompanySetup = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("name", input.name);
-        formData.append("description", input.description);
-        formData.append("website", input.website);
-        formData.append("location", input.location);
+        formData.append("name", input?.name);
+        formData.append("description", input?.description);
+        formData.append("website", input?.website);
+        formData.append("location", input?.location);
 
         if (input?.file) { 
             formData.append("file", input?.file);
@@ -72,21 +72,21 @@ const CompanySetup = () => {
 
     useEffect(() => {
         setInput({
-            name: singleCompany.name || "",
-            description: singleCompany.description || "",
-            website: singleCompany.website || "",
-            location: singleCompany.location || "",
-            file: singleCompany.file || null
+            name: singleCompany?.name || "",
+            description: singleCompany?.description || "",
+            website: singleCompany?.website || "",
+            location: singleCompany?.location || "",
+            file: singleCompany?.file || null
         })
     },[singleCompany]);
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-xl mx-auto my-10'>
+            <div className='max-w-xl mx-auto my-10 p-5'>
                 <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
+                        <Button onClick={() => navigate("/recruiter/company")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
                             <ArrowLeft />
                             <span>Back</span>
                         </Button>

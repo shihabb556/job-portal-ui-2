@@ -8,14 +8,14 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(() => {
         // If there's no user or the role is not 'recruiter', redirect to home
-        if (!user || user?.user?.role !== 'recruiter') {
+        if (!user || user?.role !== 'recruiter') {
             console.log('Unauthorized user, redirecting...');
-            navigate("/"); // Redirect to home page or login
+            navigate("/login"); // Redirect to home page or login
         }
     }, [user, navigate]);
 
     // Only render children if user is authorized
-    if (!user || user?.user?.role !== 'recruiter') {
+    if (!user || user?.role !== 'recruiter') {
         return null; // Optionally, you can show a spinner or a loading state
     }
 
