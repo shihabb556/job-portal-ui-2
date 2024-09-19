@@ -17,17 +17,18 @@ const Footer = () => {
                 <div>
                     <h2 className="font-bold text-lg mb-4">Quick Links</h2>
                     <ul>
-                        <li className="mb-2">
-                            <a href="/about" className="text-gray-400 hover:text-white">About</a>
-                        </li>
-                        <li className="mb-2">
+                       <li className="mb-2">
                             <a href="/jobs" className="text-gray-400 hover:text-white">Browse Jobs</a>
                         </li>
                         <li className="mb-2">
-                            <a href="/post-job" className="text-gray-400 hover:text-white">Post a Job</a>
+                            <a href="/about" className="text-gray-400 hover:text-white">About</a>
                         </li>
+
                         <li className="mb-2">
                             <a href="/contact" className="text-gray-400 hover:text-white">Contact Us</a>
+                        </li>
+                        <li className="mb-2">
+                            <a href="/terms" className="text-gray-400 hover:text-white">Terms & Conditions</a>
                         </li>
                     </ul>
                 </div>
@@ -43,7 +44,7 @@ const Footer = () => {
                             <Phone className="w-5 h-5 mr-2" /> +123-456-7890
                         </li>
                         <li className="flex items-center mb-2">
-                            <MapPin className="w-5 h-5 mr-2" /> 123 JobStreet, City, Country
+                            <MapPin className="w-5 h-5 mr-2" /> Mirpur-6,Dhaka,Bangladesh
                         </li>
                     </ul>
                 </div>

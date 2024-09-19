@@ -7,6 +7,11 @@ import { useDispatch } from 'react-redux';
 import {setUser } from './redux/authSlice';
 import NotFound from './components/NotFound';
 import JobsPage from './components/JobsPage';
+import SignUp from './components/auth/test/SignUp';
+import SignIn from './components/auth/test/SignIn';
+import TermsAndConditions from './components/TermsAndConditions';
+import ContactUs from './components/ContactUs';
+import AboutUs from './components/AboutUs';
 
 
 
@@ -37,8 +42,18 @@ const MyFallbackComponent = () => <div>Something went wrong.</div>;
 const appRouter = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
   { path: '/home', element: <Home /> },
+
+  { path: '/login/test', element: <SignIn /> },
+  { path: '/signup/test', element: <SignUp /> },
+
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <Signup /> },
+
+  { path: '/about', element: <AboutUs /> },
+  { path: '/contact', element: <ContactUs /> },
+  { path: '/terms', element: <TermsAndConditions /> },
+
+
   { path: '/profile', element: <Profile /> },
   { path: '/jobs', element: <JobsPage /> },
   { path: '/jobs/s', element: <Jobs /> },
