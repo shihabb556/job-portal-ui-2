@@ -23,7 +23,7 @@ const Navbar = () => {
             <div className='flex items-center px-3 justify-between mx-auto max-w-8xl h-16'>
                 <div>
                     <Link to={'/'}>
-                       <h1 className='md:text-2xl sm:text-xl text-md  font-bold pb-1 md:pb-0 text-[#6A38C2]'>Job<span className='text-[#F83002]'>Portal</span></h1>
+                       <h1 className='md:text-2xl text-xl text-md  font-bold pb-1 md:pb-0 text-[#6A38C2]'>Job<span className='text-[#F83002]'>Portal</span></h1>
                     </Link>
                 </div>
                 <div className='flex items-center gap-3 md:gap-8 '>

@@ -53,46 +53,48 @@ const FilterCard = ({ isOpen,setIsOpen}) => {
                 ) : ''
              }
            </div>
-            <hr className='mt-3' />
+           <hr className='mt-3' />
+           <div className=' overflow-y-auto scrollbar-thin scrollbar-thumb-[#A3AFFA]  scrollbar-track-gray-100 pr-5'>
+                
+                {/* Location Filter */}
+                <h2 className='font-bold text-md mt-3 py-1 text-gray-700'>Location</h2>
+                <RadioGroup value={selectedLocation} onValueChange={setSelectedLocation} className='max-h-[150px] md:max-h[200px]  lg:max-h-[220px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#A3AFFA]  scrollbar-track-gray-100 text-gray-600'>
+                    {Location.map((location, idx) => (
+                        <div key={idx} className='flex items-center space-x-2 my-2'>
+                            <RadioGroupItem value={location} id={`location-${idx}`}   />
+                            <Label htmlFor={`location-${idx}`}>{location}</Label>
+                        </div>
+                    ))}
+                </RadioGroup>
 
-            {/* Location Filter */}
-            <h2 className='font-bold text-md mt-3 py-1 text-gray-700'>Location</h2>
-            <RadioGroup value={selectedLocation} onValueChange={setSelectedLocation} className='max-h-[150px] md:max-h[200px]  lg:max-h-[220px] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100 text-gray-600'>
-                {Location.map((location, idx) => (
+                {/* Industry Filter */}
+                <h2 className='font-bold text-md mt-3 py-1 text-gray-700'>Industry</h2>
+                <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className='pl-4 overflow-y-auto max-h-[150px] sm:max-h[185px] md:max-h[195px]  lg:max-h-[240px] scrollbar-thin scrollbar-thumb-[#A3AFFA]  scrollbar-track-gray-100 text-gray-600'>
+                { Industry.map((categoryItem, idx) => (
                     <div key={idx} className='flex items-center space-x-2 my-2'>
-                        <RadioGroupItem value={location} id={`location-${idx}`}   />
-                        <Label htmlFor={`location-${idx}`}>{location}</Label>
+                        <RadioGroupItem value={categoryItem} id={`category-${idx}}`}  />
+                        <Label htmlFor={`category-${idx}`}>{categoryItem}</Label>
                     </div>
                 ))}
-            </RadioGroup>
+                </RadioGroup>
 
-            {/* Industry Filter */}
-            <h2 className='font-bold text-md mt-3 py-1 text-gray-700'>Industry</h2>
-            <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className='pl-4 overflow-y-auto max-h-[150px] sm:max-h[185px] md:max-h[200px]  lg:max-h-[260px] scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100 text-gray-600'>
-             { Industry.map((categoryItem, idx) => (
-                 <div key={idx} className='flex items-center space-x-2 my-2'>
-                     <RadioGroupItem value={categoryItem} id={`category-${idx}}`}  />
-                     <Label htmlFor={`category-${idx}`}>{categoryItem}</Label>
-                  </div>
-              ))}
-            </RadioGroup>
+                {/* Salary Filter */}
+                {/* <h2 className='font-bold text-md mt-3'>Salary</h2>
+                <RadioGroup value={selectedSalary} onValueChange={setSelectedSalary}>
+                    {Salary.map((salaryRange, idx) => (
+                        <div key={idx} className='flex items-center space-x-2 my-2'>
+                            <RadioGroupItem value={salaryRange} id={`salary-${idx}`} />
+                            <Label htmlFor={`salary-${idx}`}>{salaryRange}k bdt</Label>
+                        </div>
+                    ))}
+                </RadioGroup> */}
 
-            {/* Salary Filter */}
-            {/* <h2 className='font-bold text-md mt-3'>Salary</h2>
-            <RadioGroup value={selectedSalary} onValueChange={setSelectedSalary}>
-                {Salary.map((salaryRange, idx) => (
-                    <div key={idx} className='flex items-center space-x-2 my-2'>
-                        <RadioGroupItem value={salaryRange} id={`salary-${idx}`} />
-                        <Label htmlFor={`salary-${idx}`}>{salaryRange}k bdt</Label>
-                    </div>
-                ))}
-            </RadioGroup> */}
-
-            <div className='w-full relative h-10 py-4 flex items-center mt-5'>
-                <Button onClick={() => setIsOpen(false)} className='text-lg bg-red-500 ml-auto hover:bg-red-400 shadow shadow-xl'>
-                    X
-                </Button>
-            </div>
+                <div className='w-full relative h-10 py-4 flex items-center mt-5 lg:hidden'>
+                    <Button onClick={() => setIsOpen(false)} className='text-lg bg-red-500 ml-auto hover:bg-red-400 shadow shadow-xl lg:hidden'>
+                        X
+                    </Button>
+                </div>
+           </div>
 
         </div> 
     );

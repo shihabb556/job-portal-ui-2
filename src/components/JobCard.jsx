@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from './ui/button'
-import { Bookmark } from 'lucide-react'
+import { ArrowRight, ArrowRightCircle, Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
@@ -17,10 +17,10 @@ const JobCard = ({job}) => {
     };
     
     return (
-        <div className='p-2 md:p-5 rounded-md shadow-xl bg-gray-100 border border-gray-100 border border-t-gray-400'>
+        <div className='p-2 md:p-5 rounded-md shadow-xl  border border-gray-100 border border-t-gray-400'>
             <div className='flex items-center justify-between'>
               <h1 className='font-bold text-lg my-2 text-gray-700'>{job?.title}</h1>
-              <Button variant="secondary" className="rounded-full" size="icon"> 
+              <Button variant="secondary" className="rounded-full p-2 hover:bg-gray-300  "> 
                  <Bookmark />
               </Button>
             </div>
@@ -55,8 +55,8 @@ const JobCard = ({job}) => {
                   
                 </div>
 
-                <Button className="ml-auto bg-gray-300 border-gray-400 text-gray-800 hover:bg-gray-400" onClick={() => navigate(`/job/${job?._id}`)}>
-                    Details
+                <Button className="flex gap-1 ml-auto bg-gray-200 border-gray-400  hover:bg-gray-300 text-blue-600" onClick={() => navigate(`/job/${job?._id}`)}>
+                    Details <ArrowRightCircle/>
                 </Button>
             </div>
 

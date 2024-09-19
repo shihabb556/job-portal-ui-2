@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { selectJobData } from '@/redux/jobSlice';
-import { ArrowBigDown, ArrowBigUp, FilterIcon, FilterXIcon } from 'lucide-react';
+import { ArrowBigDown, ArrowBigUp, FilterIcon, FilterXIcon, LucideSidebarClose, LucideSidebarOpen } from 'lucide-react';
 
 const Jobs = () => {
     const jobListRef = useRef(null); // Ref for the job list container
@@ -20,6 +20,7 @@ const Jobs = () => {
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [scrollToBottom, setScrollToBottom] = useState(true); // Track scroll state (top/bottom)
+    const [isBottomBar, setIsBottomBar] = useState(true); 
 
     // Load More Jobs State
     const [visibleJobs, setVisibleJobs] = useState(10); // Start by showing 10 jobs
@@ -80,14 +81,16 @@ const Jobs = () => {
     return (
         <div>
             <Navbar />  
-            <input 
-                onClick={()=>setIsOpen(false)}
-                type="text"
-                placeholder='Search Jobs...'
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="absolute right-0 mt-2 z-30 w-[45%] sm:w-[60%] ml-auto px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm placeholder-gray-500 mr-3"
-            />
+           <div className='w-full border relative'>
+                <input 
+                        onClick={()=>setIsOpen(false)}
+                        type="text"
+                        placeholder='Search Jobs...'
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="absolute right-0 mt-2 z-30 w-[45%] ml-auto px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm placeholder-gray-500 mr-3"
+                    />
+           </div>
 
             <div className='max-w-7xl p-4 mx-auto mt-5 h-[80vh] '>
                 <div className='flex flex-col sm:flex-row gap-5 relative'>
@@ -100,7 +103,7 @@ const Jobs = () => {
                         {filteredJobs && filteredJobs.length > 0 ? (
                          <div
                             ref={jobListRef}
-                            className="flex-1 h-[86vh] overflow-y-auto p-5 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100"
+                            className="flex-1 h-[84vh] overflow-y-auto p-5 pb-[5em] scrollbar-thin scrollbar-thumb-[#A3AFFA] scrollbar-track-gray-100"
                         >
                             <div className="grid xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-4">
                             {filteredJobs.slice(0, visibleJobs).map((job, idx) => (
@@ -117,8 +120,8 @@ const Jobs = () => {
                             </div>
                         
                             {visibleJobs < filteredJobs.length && (
-                            <div className="flex justify-center mt-5">
-                                <Button className=' rounded' onClick={loadMoreJobs} disabled={loading}>
+                            <div className="flex justify-center mt-[4em]">
+                                <Button className=' rounded ' onClick={loadMoreJobs} disabled={loading} >
                                 {loading ? (
                                   
                                         <div className="flex justify-center mt-2">
@@ -141,19 +144,26 @@ const Jobs = () => {
                 </div>
             </div>
             {/*  (Fixed in bottom-right) */}
-            <div className='fixed bottom-5 right-5 flex items-center gap-1'>
-                {/* FilterCard Toggle Button */}
-                <Button className={`focus:outline-none block lg:hidden w-[7em] mx-1  ${isOpen ? 'bg-red-500 hover:bg-red-400' : ''}`} m-4 onClick={handleSidebar}>
-                    {isOpen ? (<FilterXIcon/>) : (<FilterIcon/>)}
-                </Button>
+            <div className={`fixed bottom-5 right-5 flex items-center gap-1 `}>
+                <button className='text-gray-800 hover:text-gray-700 bg-gray-100 rounded p-1 block md:hidden' onClick={()=>setIsBottomBar(!isBottomBar)}>
+                    {
+                        isBottomBar ? ( <LucideSidebarOpen/> ): ( <LucideSidebarClose/> )
+                    }
+                </button>
+              <div className={`flex items-center gap-1 ${isBottomBar ? 'block':'hidden'}`}>
+                  {/* FilterCard Toggle Button */}
+                    <Button className={`bg-blue-500 hover:bg-blue-400 focus:outline-none block lg:hidden w-[7em] mx-1  ${isOpen ? 'bg-red-500 hover:bg-red-400' : ''}`} m-4 onClick={handleSidebar}>
+                        {isOpen ? (<div className='flex gap-1'><FilterXIcon/> Close </div>) : (<div className='flex gap-1'><FilterIcon/> Filter</div>)}
+                    </Button>
 
-                {/* Scroll Toggle Button (Fixed in bottom-right) */}
-                <Button
-                    onClick={handleScrollToggle}
-                    className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none"
-                >
-                    {scrollToBottom ? (<ArrowBigDown/>) : (<ArrowBigUp/>)}
-                </Button>
+                    {/* Scroll Toggle Button (Fixed in bottom-right) */}
+                    <Button
+                        onClick={handleScrollToggle}
+                        className=" text-white px-4 py-2 rounded focus:outline-none"
+                    >
+                        {scrollToBottom ? ( <div className='flex gap-1'><ArrowBigDown/> Bottom</div> ) :  ( <div className='flex  gap-1'><ArrowBigUp/> Top</div> )}
+                    </Button>
+              </div>
 
             </div>
           
