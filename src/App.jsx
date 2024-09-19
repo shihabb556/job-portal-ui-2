@@ -1,14 +1,17 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 import ProtectedRoute from './components/recruiter/ProtectedRoute';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useDispatch } from 'react-redux';
-import { setAdmin, setUser } from './redux/authSlice';
+import {setUser } from './redux/authSlice';
 import NotFound from './components/NotFound';
+import JobsPage from './components/JobsPage';
+
 
 
 // Lazy load components for route-based splitting
+const LandingPage = lazy(()=> import('./components/LandingPage'));
 const Home = lazy(() => import('./components/Home'));
 const Login = lazy(() => import('./components/auth/Login'));
 const Signup = lazy(() => import('./components/auth/Signup'));
@@ -32,11 +35,13 @@ const MyFallbackComponent = () => <div>Something went wrong.</div>;
 
 // Define the routes using lazy-loaded components
 const appRouter = createBrowserRouter([
-  { path: '/', element: <Home /> },
+  { path: '/', element: <LandingPage /> },
+  { path: '/home', element: <Home /> },
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <Signup /> },
   { path: '/profile', element: <Profile /> },
-  { path: '/jobs', element: <Jobs /> },
+  { path: '/jobs', element: <JobsPage /> },
+  { path: '/jobs/s', element: <Jobs /> },
   { path: '/browse', element: <Browse /> },
   { path: '/job/:id', element: <JobDetails /> },
   { path: '/interview-prep/qna', element: <InterviewQna /> },

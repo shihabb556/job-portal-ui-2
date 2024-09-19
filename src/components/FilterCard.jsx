@@ -42,7 +42,7 @@ const FilterCard = ({ isOpen,setIsOpen}) => {
   
 
     return (
-        <div className={` p-4w-[100%] bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden lg:block'} `} >
+        <div className={` p-4 w-[100%] bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden lg:block'} `} >
            <div className='flex justify-between'>
              <h1 className='font-bold text-lg text-gray-800'>Filter Jobs</h1>
              {

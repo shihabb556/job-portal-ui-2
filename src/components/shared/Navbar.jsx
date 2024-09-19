@@ -2,15 +2,13 @@ import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
-import { LogOut, User2 ,Link2} from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../../redux/authSlice';
-import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
-import { setUser } from '@/redux/authSlice'
+import {  useSelector } from 'react-redux'
+
+
+
 import { toast } from 'sonner';
-// import { persistor } from '../../redux/store'; 
+
 
 
 const Navbar = () => {
@@ -48,8 +46,8 @@ const Navbar = () => {
                     {
                         !user ? (
                             <div className='flex items-center gap-2'>
-                                <Link to="/login"><Button sixe='sm' variant="outline">Login</Button></Link>
-                                <Link to="/signup"><Button size='sm' className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button></Link>
+                                <Link to="/login"><Button sixe='sm' >Login</Button></Link>
+                                <Link to="/signup" className='hidden md:block'><Button size='sm' className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button></Link>
                             </div>
                         ) : (
                             <Popover>
