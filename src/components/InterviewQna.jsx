@@ -37,7 +37,7 @@ const InterviewQna = () => {
   return (
     <div>
       <Navbar />
-      <div className='p-6'>
+      <div className='p-6 max-w-5xl mx-auto'>
         <h2>Interview Preparation Q&A</h2>
 
         {/* Category Selector */}

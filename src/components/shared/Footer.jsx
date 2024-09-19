@@ -2,7 +2,7 @@
 
 const Footer = () => {
   return (
-    <footer className="absolute w-full border-t border-t-gray-200 py-8 bg-[#8f4aff]">
+    <footer className="absolute w-full border-t border-t-gray-200 py-8 bg-[#6C19F3]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col-reverse  justify-between items-center p-8">
           <div className=" flex flex-col items-center mb-4 md:mb-0 text-white">

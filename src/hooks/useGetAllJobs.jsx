@@ -1,43 +1,24 @@
-import { setAllJobs, setPagination } from "@/redux/jobSlice";
+import { setAllJobs } from "@/redux/jobSlice"; // Remove setPagination as it's no longer needed
 import baseApi from "@/utils/baseApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useGetAllJobs = () => {
     const dispatch = useDispatch();
-    const { searchedQuery, pagination } = useSelector((store) => store.job);
     const token = JSON.parse(localStorage.getItem("job-portal_token"));
 
     useEffect(() => {
         const fetchAllJobs = async () => {
-            console.log('Fetching jobs with pagination and filters');
             try {
-                const { keyword, location, category, salary } = searchedQuery;
-                const { currentPage, limit } = pagination;
-
-                const queryParams = new URLSearchParams({
-                    keyword: keyword || "",
-                    location: location || "",
-                    category: category || "",
-                    salary: salary || "",
-                    page: currentPage,
-                    limit: limit
-                });
-
-                const res = await baseApi.get(`/job/get?${queryParams.toString()}`, {
+                const res = await baseApi.get(`/job/get`, {  // Updated endpoint to fetch all jobs at once
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
 
                 if (res?.data?.success) {
-                    dispatch(setAllJobs(res?.data?.jobs));
-                    dispatch(setPagination({
-                        totalJobs: res?.data?.totalJobs,
-                        totalPages: res?.data?.totalPages,
-                        currentPage: res?.data?.currentPage,
-                        limit: limit
-                    }));
+                    dispatch(setAllJobs(res?.data?.jobs));  // Dispatch all jobs to the store
+                    console.log('Fetched all jobs:', res?.data?.jobs);
                 } else {
                     console.error("Failed to fetch jobs:", res.data);
                     dispatch(setAllJobs([]));
@@ -48,7 +29,7 @@ const useGetAllJobs = () => {
         };
 
         fetchAllJobs();
-    }, [searchedQuery, pagination.currentPage, pagination.limit]);
+    }, []); // Removed pagination and searchedQuery from dependency array as they no longer affect the API call
 };
 
 export default useGetAllJobs;

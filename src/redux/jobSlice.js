@@ -1,4 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from 'reselect';
+
+export const selectJobData = createSelector(
+  [state => state.job],
+  job => ({
+    allJobs: job.allJobs,
+    searchedQuery: job.searchedQuery,
+    pagination: job.pagination,
+    currentPage: job.pagination.currentPage,
+    totalPages: job.pagination.totalPages
+  })
+);
+
 
 const jobSlice = createSlice({
     name: "job",

@@ -71,7 +71,7 @@ const JobDetails = () => {
         <div className='max-w-7xl mx-auto my-10 p-5 md:mx-10'>
             <div className='flex items-center justify-between'>
                 <div>
-                    <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
+                    <h1 className='font-bold text-xl text-gray-700'>{singleJob?.title}</h1>
                     <div className='flex items-center gap-2 mt-4'>
                         <Badge className={'text-blue-700 font-bold'} variant="ghost">{singleJob?.position} Positions</Badge>
                         <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
@@ -92,8 +92,8 @@ const JobDetails = () => {
                <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal '>{singleJob?.applications?.length}</span></h1>
                <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal '>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>
-            <div className=' bg-gray-100 p-4'>
-               <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
+            <div className=' bg-gray-100 p-4 min-h-[70vh]'>
+               <h1 className='border-b-2 border-b-gray-300 font-medium py-4 text-gray-700'>Job Description</h1>
                <div className='font-bold my-1 px-5'> 
                     <span className=' font-normal text-gray-800'> 
                         <div

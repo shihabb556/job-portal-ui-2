@@ -16,7 +16,7 @@ const Pagination = ({ scrollableDivRef }) => {
         if (scrollableDivRef.current) {
             scrollableDivRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        }, 300), // 300ms debounce
+        }, 1000), // 300ms debounce
         []
     );
   
