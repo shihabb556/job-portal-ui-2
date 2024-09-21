@@ -12,7 +12,6 @@ export const selectJobData = createSelector(
   })
 );
 
-
 const jobSlice = createSlice({
     name: "job",
     initialState: {
@@ -32,8 +31,10 @@ const jobSlice = createSlice({
             totalJobs: 0,
             totalPages: 1,
             currentPage: 1,
-            limit: 10, // You might want to add a limit to control the number of jobs per page
+            limit: 10, // Control the number of jobs per page
         },
+        loading: false, // Add loading state
+        error: null,   // Add error state
     },
     reducers: {
         setAllJobs: (state, action) => {
@@ -60,9 +61,14 @@ const jobSlice = createSlice({
         setSearchedQuery: (state, action) => {
             state.searchedQuery = action.payload;
         },
-        // Add an action to handle page changes
         setCurrentPage: (state, action) => {
             state.pagination.currentPage = action.payload;
+        },
+        setLoading: (state, action) => { // Add setLoading action
+            state.loading = action.payload;
+        },
+        setError: (state, action) => { // Add setError action
+            state.error = action.payload;
         }
     }
 });
@@ -76,7 +82,9 @@ export const {
     setSearchJobByText,
     setAllAppliedJobs,
     setSearchedQuery,
-    setCurrentPage
+    setCurrentPage,
+    setLoading, // Export setLoading
+    setError    // Export setError
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

@@ -4,6 +4,7 @@ import Footer from './shared/Footer';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import NewsletterSignup from './LandingPage/NewsletterSignup';
 const HeroSection = React.lazy(() => import('./HeroSection'));
 const CategoryCarousel = React.lazy(() => import('./CategoryCarousel'));
 const LatestJobs = React.lazy(() => import('./LatestJobs'));
@@ -39,6 +40,7 @@ const Home = () => {
           <LatestJobs />
         </Suspense>
       </div>
+      <NewsletterSignup/>
       {/* Load Footer directly */}
       <Footer />
     </div>

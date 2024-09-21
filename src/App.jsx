@@ -40,8 +40,8 @@ const MyFallbackComponent = () => <div>Something went wrong.</div>;
 
 // Define the routes using lazy-loaded components
 const appRouter = createBrowserRouter([
-  { path: '/', element: <LandingPage /> },
-  { path: '/home', element: <Home /> },
+  { path: '/landing', element: <LandingPage /> },
+  { path: '/', element: <Home /> },
 
   { path: '/login/test', element: <SignIn /> },
   { path: '/signup/test', element: <SignUp /> },
@@ -55,8 +55,8 @@ const appRouter = createBrowserRouter([
 
 
   { path: '/profile', element: <Profile /> },
-  { path: '/jobs', element: <JobsPage /> },
-  { path: '/jobs/s', element: <Jobs /> },
+  { path: '/jobs/test', element: <JobsPage /> },
+  { path: '/jobs', element: <Jobs /> },
   { path: '/browse', element: <Browse /> },
   { path: '/job/:id', element: <JobDetails /> },
   { path: '/interview-prep/qna', element: <InterviewQna /> },

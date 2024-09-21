@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from './shared/Navbar';
 import FilterCard from './FilterCard';
 import JobCard from './JobCard';
@@ -14,15 +14,12 @@ const Jobs = () => {
 
     useGetAllJobs(); // Fetch initial jobs
 
-    const { allJobs, searchedQuery } = useSelector(selectJobData);
+    const { allJobs, searchedQuery, loading } = useSelector(selectJobData); // Get loading from Redux
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [scrollToBottom, setScrollToBottom] = useState(true); // Track scroll state (top/bottom)
     const [isBottomBar, setIsBottomBar] = useState(true); 
-
-    // Load More Jobs State
     const [visibleJobs, setVisibleJobs] = useState(10); // Start by showing 10 jobs
 
     // Filtered Jobs Calculation
@@ -52,30 +49,23 @@ const Jobs = () => {
 
     // Load More Jobs (increment the visible jobs)
     const loadMoreJobs = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setVisibleJobs(prevVisible => prevVisible + 10); // Load 10 more jobs each time
-            setLoading(false);
-        }, 1000); // Simulate loading delay
+        setVisibleJobs(prevVisible => prevVisible + 10); // Load 10 more jobs each time
     };
-    console.log('visible jobs filterd ',filteredJobs)
+
     const handleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
-    // Handle toggle between scrolling to top or bottom
     const handleScrollToggle = () => {
         const jobListDiv = jobListRef.current;
         if (jobListDiv) {
             if (scrollToBottom) {
-                // Scroll to bottom
                 jobListDiv.scrollTo({ top: jobListDiv.scrollHeight, behavior: 'smooth' });
             } else {
-                // Scroll to top
                 jobListDiv.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
-        setScrollToBottom(!scrollToBottom); // Toggle state
+        setScrollToBottom(!scrollToBottom);
     };
 
     return (
@@ -99,10 +89,15 @@ const Jobs = () => {
                     </div>
 
                     <div className="flex-1 w-full " onClick={()=>setIsOpen(false)}>
-                        {filteredJobs && filteredJobs.length > 0 ? (
+                        {loading ? ( // Show loading state
+                            <div className="flex justify-center items-center h-[70vh]">
+                                <span>Loading...</span>
+                                <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin"></div>
+                            </div>
+                        ) : filteredJobs && filteredJobs.length > 0 ? (
                          <div
                             ref={jobListRef}
-                            className="flex-1 h-[70vh] lg:h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#A3AFFA] scrollbar-track-gray-100 pb-[10em]"
+                            className="flex-1 h-[70vh] lg:h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#A3AFFA] scrollbar-track-gray-100 pb-[7em] pt-[3em]"
                         >
                             <div className="grid xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-4 pb-[2em]">
                             {filteredJobs.slice(0, visibleJobs).map((job, idx) => (
@@ -120,21 +115,14 @@ const Jobs = () => {
                         
                             {visibleJobs < filteredJobs.length && (
                             <div className="flex justify-center">
-                                <Button className='rounded' onClick={loadMoreJobs} disabled={loading}>
-                                {loading ? (
-                                    <div className="flex justify-center items-center gap-2">
-                                        <span>Loading...</span>
-                                        <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
-                                    </div>
-                                ) : (
-                                    'Load More Jobs'
-                                )}
+                                <Button className='rounded' onClick={loadMoreJobs}>
+                                    Load More Jobs
                                 </Button>
                             </div>
                             )}
                         </div>
                         ) : (
-                            !loading && <div className='m-10'> Job not Found! </div>
+                            <div className='m-10'> Job not Found! </div>
                         )}
                     </div>
                 </div>
@@ -146,12 +134,10 @@ const Jobs = () => {
                     {isBottomBar ? <LucideSidebarOpen /> : <LucideSidebarClose />}
                 </button>
                 <div className={`flex items-center gap-1 ${isBottomBar ? 'block' : 'hidden'}`}>
-                           {/* FilterCard Toggle Button */}
-                           <Button className={`bg-blue-500 hover:bg-blue-400 focus:outline-none block lg:hidden w-[7em] mx-1  ${isOpen ? 'bg-red-500 hover:bg-red-400' : ''}`}  onClick={handleSidebar}>
+                    <Button className={`bg-blue-500 hover:bg-blue-400 focus:outline-none block lg:hidden w-[7em] mx-1  ${isOpen ? 'bg-red-500 hover:bg-red-400' : ''}`} onClick={handleSidebar}>
                         {isOpen ? (<div className='flex gap-1'><FilterXIcon/> Close </div>) : (<div className='flex gap-1'><FilterIcon/> Filter</div>)}
                     </Button>
 
-                    {/* Scroll Toggle Button */}
                     <Button
                         onClick={handleScrollToggle}
                         className="text-white px-4 py-2 rounded focus:outline-none"

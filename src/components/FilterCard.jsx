@@ -44,14 +44,19 @@ const FilterCard = ({ isOpen,setIsOpen}) => {
     return (
         <div className={` p-4 w-[100%] bg-white p-3 rounded-md shadow-md transition-all duration-300 ${isOpen ? 'block' : 'hidden lg:block'} `} >
            <div className='flex justify-between'>
-             <h1 className='font-bold text-lg text-gray-800'>Filter Jobs</h1>
-             {
+                <h1 className='font-bold text-lg text-gray-800'>Filter Jobs</h1>
+              {
                 selectedCategory || selectedLocation || selectedSalary ? (
-                    <button onClick={handleResetFilters} className='p-2 border bg-gray-200 rounded text-red-600'>
+                    <button onClick={handleResetFilters} className='p-2 border bg-gray-200 rounded text-sm text-red-600'>
                          Clear Filter
                     </button>
                 ) : ''
-             }
+              }
+
+                <Button onClick={() => setIsOpen(false)} className='text-lg bg-red-500  hover:bg-red-400 shadow shadow-xl lg:hidden'>
+                    X
+                </Button>
+             
            </div>
            <hr className='mt-3' />
            <div className=' overflow-y-auto scrollbar-thin scrollbar-thumb-[#A3AFFA]  scrollbar-track-gray-100 pr-5'>
@@ -89,11 +94,7 @@ const FilterCard = ({ isOpen,setIsOpen}) => {
                     ))}
                 </RadioGroup> */}
 
-                <div className='w-full relative h-10 py-4 flex items-center mt-5 lg:hidden'>
-                    <Button onClick={() => setIsOpen(false)} className='text-lg bg-red-500 ml-auto hover:bg-red-400 shadow shadow-xl lg:hidden'>
-                        X
-                    </Button>
-                </div>
+               
            </div>
 
         </div> 

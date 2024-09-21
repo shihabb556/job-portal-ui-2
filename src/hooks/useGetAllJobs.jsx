@@ -1,7 +1,7 @@
-import { setAllJobs } from "@/redux/jobSlice"; // Remove setPagination as it's no longer needed
+import { setAllJobs, setLoading, setError } from "@/redux/jobSlice"; // Import setLoading and setError actions
 import baseApi from "@/utils/baseApi";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const useGetAllJobs = () => {
     const dispatch = useDispatch();
@@ -9,27 +9,31 @@ const useGetAllJobs = () => {
 
     useEffect(() => {
         const fetchAllJobs = async () => {
+            dispatch(setLoading(true));  // Set loading to true before fetching
+
             try {
-                const res = await baseApi.get(`/job/get`, {  // Updated endpoint to fetch all jobs at once
+                const res = await baseApi.get(`/job/get`, {  // Fetch all jobs
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
 
                 if (res?.data?.success) {
-                    dispatch(setAllJobs(res?.data?.jobs));  // Dispatch all jobs to the store
-                    console.log('Fetched all jobs:', res?.data?.jobs);
+                    dispatch(setAllJobs(res?.data?.jobs));  // Dispatch jobs to the store
                 } else {
-                    console.error("Failed to fetch jobs:", res.data);
                     dispatch(setAllJobs([]));
+                    console.error("Failed to fetch jobs:", res.data);
                 }
             } catch (error) {
+                dispatch(setError(error.message));  // Handle error
                 console.error("Error fetching jobs:", error);
+            } finally {
+                dispatch(setLoading(false));  // Set loading to false after fetching
             }
         };
 
         fetchAllJobs();
-    }, []); // Removed pagination and searchedQuery from dependency array as they no longer affect the API call
+    }, []); 
 };
 
 export default useGetAllJobs;

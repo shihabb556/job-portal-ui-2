@@ -68,7 +68,9 @@ const JobDetails = () => {
     return (
      <div>
         <Navbar/>
-        <div className='max-w-7xl mx-auto my-10 p-5 md:mx-10'>
+       {
+        singleJob ? (
+            <div className='max-w-7xl mx-auto my-10 p-5 md:mx-10'>
             <div className='flex items-center justify-between'>
                 <div>
                     <h1 className='font-bold text-xl text-gray-700'>{singleJob?.title}</h1>
@@ -105,6 +107,13 @@ const JobDetails = () => {
             </div>
 
         </div>
+        ): (
+            <div className="flex justify-center items-center gap-2 min-h-[70vh]">
+             
+              <div className="loader border-t-4 border-blue-500 rounded-full w-10 h-10 animate-spin mt-[10vh]"></div>
+           </div>
+        )
+       }
     </div>
   )
 }
