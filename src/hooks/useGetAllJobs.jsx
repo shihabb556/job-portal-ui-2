@@ -19,6 +19,7 @@ const useGetAllJobs = () => {
                 });
 
                 if (res?.data?.success) {
+                    console.log(res?.data?.jobs)
                     dispatch(setAllJobs(res?.data?.jobs));  // Dispatch jobs to the store
                 } else {
                     dispatch(setAllJobs([]));

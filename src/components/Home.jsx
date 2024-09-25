@@ -5,6 +5,9 @@ import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import NewsletterSignup from './LandingPage/NewsletterSignup';
+import FeaturedCompanies from './LandingPage/FeaturedCompanies';
+import HowItWorks from './LandingPage/HowItWorks';
+import PopularCategories from './LandingPage/PopularCategories';
 const HeroSection = React.lazy(() => import('./HeroSection'));
 const CategoryCarousel = React.lazy(() => import('./CategoryCarousel'));
 const LatestJobs = React.lazy(() => import('./LatestJobs'));
@@ -30,13 +33,24 @@ const Home = () => {
       <Navbar />
       <div className='p-5 max-w-5xl mx-auto '>
         {/* Lazy load the less critical components */}
-        <Suspense fallback={<div className='text-blue-500'>Loading Hero...</div>}>
+        <Suspense fallback={   <div className="flex justify-center items-center gap-2">
+                        <span>Loading...</span>
+                        <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
+                    </div>}>
           <HeroSection />
         </Suspense>
-        <Suspense fallback={<div className='text-blue-500'>Loading Categories...</div>}>
-          <CategoryCarousel />
+        <FeaturedCompanies />
+        <Suspense fallback={   <div className="flex justify-center items-center gap-2">
+                        <span>Loading...</span>
+                        <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
+                    </div>}>
+          <PopularCategories />
         </Suspense>
-        <Suspense fallback={<div className='text-blue-500'>Loading Latest Jobs...</div>}>
+        <HowItWorks />
+        <Suspense fallback={   <div className="flex justify-center items-center gap-2">
+                        <span>Loading...</span>
+                        <div className="loader border-t-4 border-blue-500 rounded-full w-6 h-6 animate-spin"></div>
+                    </div> }>
           <LatestJobs />
         </Suspense>
       </div>

@@ -8,7 +8,8 @@ export const selectJobData = createSelector(
     searchedQuery: job.searchedQuery,
     pagination: job.pagination,
     currentPage: job.pagination.currentPage,
-    totalPages: job.pagination.totalPages
+    totalPages: job.pagination.totalPages,
+    loading: job.loading 
   })
 );
 

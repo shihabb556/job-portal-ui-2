@@ -17,25 +17,25 @@ const Navbar = () => {
 
 
     return (
-        <div className='w-full bg-white sticky top-0 z-50 shadow-md text-gray-700'>
+        <div className='w-full bg-indigo-500 sticky top-0 z-50 shadow-md text-gray-700'>
             <div className='flex items-center px-3 justify-between mx-auto max-w-8xl h-16'>
                 <div>
                     <Link to={'/'}>
-                       <h1 className='md:text-2xl text-xl text-md  font-bold pb-1 md:pb-0 text-[#6A38C2]'>Job<span className='text-[#F83002]'>Portal</span></h1>
+                       <h1 className='md:text-2xl text-xl text-md  font-bold pb-1 md:pb-0 text-gray-200'>Job<span className='text-red-300'>Portal</span></h1>
                     </Link>
                 </div>
                 <div className='flex items-center gap-3 md:gap-8 '>
-                    <ul className='flex font-medium items-center text-sm sm:text-md gap-5'>
+                    <ul className='flex font-medium items-center text-sm sm:text-md gap-5 '>
                         {
                             user && user.role === 'recruiter' ? (
                                 <>
-                                    <li><Link to="/recruiter/companies">Companies</Link></li>
-                                    <li><Link to="/recruiter/jobs">Jobs</Link></li>
+                                    <li className='text-gray-300 hover:text-gray-200'><Link to="/recruiter/companies">Companies</Link></li>
+                                    <li className='text-gray-300 hover:text-gray-200'><Link to="/recruiter/jobs">Jobs</Link></li>
                                 </>
                             ) : (
                                 <>
-                                    <li><Link to="/">Home</Link></li>
-                                    <li><Link to="/jobs">Jobs</Link></li>
+                                    <li className='text-gray-200 hover:text-gray-300'><Link to="/">Home</Link></li>
+                                    <li className='text-gray-200 hover:text-gray-300'><Link to="/jobs">Jobs</Link></li>
                                  
                                 </>
                             )
@@ -72,16 +72,16 @@ const Navbar = () => {
                                                 user && user?.role === 'student' && (
                                                     <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
                                                       <ul className='flex gap-2 flex-col'>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/">Home</Link>
                                                         </li>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/jobs">Jobs</Link>
                                                         </li>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/profile">Profile</Link>
                                                         </li>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/interview-prep/qna">  Interview Preparation</Link>
                                                         </li>
                                                       </ul>
@@ -91,13 +91,13 @@ const Navbar = () => {
                                               {  user && user?.role === 'recruiter' && (
                                                     <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
                                                       <ul className='flex gap-2 flex-col'>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/recruiter/companies">Companies</Link>
                                                         </li>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/recruiter/jobs">Jobs</Link>
                                                         </li>
-                                                        <li>  
+                                                        <li className='hover:text-indigo-600'>  
                                                             <Link to="/profile">Profile</Link>
                                                         </li>
                                                       

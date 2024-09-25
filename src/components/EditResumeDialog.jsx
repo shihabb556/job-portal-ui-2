@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
 
 const EditResumeDialog = ({ open, setOpen, user }) => {
     const [resumeLink, setResumeLink] = useState(user?.profile?.resume || '');
@@ -11,28 +8,42 @@ const EditResumeDialog = ({ open, setOpen, user }) => {
         setOpen(false);
     };
 
+    if (!open) return null; // Only render if the dialog is open
+
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Edit Resume</DialogTitle>
-                    <p className='text-[14px] text-red-500 pl-8'>
-                                        Please enter a valied link of your resume. 
-                                        You can upload your resume to Google Drive, make it publicly accessible, 
-                                        then copy the link and paste it into the input field below.
-                                    </p>
-                </DialogHeader>
-                <Input 
-                    type="url" 
-                    placeholder="Enter resume link" 
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg p-5 w-96 shadow-lg">
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold">Edit Resume</h2>
+                    <p className="text-sm text-red-500 mt-2">
+                        Please enter a valid link to your resume. 
+                        You can upload your resume to Google Drive, make it publicly accessible, 
+                        then copy the link and paste it into the input field below.
+                    </p>
+                </div>
+                <input
+                    type="url"
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="Enter resume link"
                     value={resumeLink}
                     onChange={(e) => setResumeLink(e.target.value)}
                 />
-                <DialogFooter>
-                    <Button onClick={handleSave}>Save</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                <div className="flex justify-end mt-4 gap-2">
+                    <button
+                        onClick={() => setOpen(false)}
+                        className="px-4 py-2 bg-gray-200 rounded-md"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={handleSave}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 

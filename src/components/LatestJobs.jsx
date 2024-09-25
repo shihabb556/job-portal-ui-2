@@ -1,6 +1,7 @@
 import React from 'react';
 import LatestJobCard from './LatestJobCard';
 import { useSelector } from 'react-redux'; 
+import JobCard from './JobCard';
 
 const LatestJobs = () => {
     const { allJobs, loading, error } = useSelector(store => store.job);
@@ -8,7 +9,7 @@ const LatestJobs = () => {
     return (
         <div className='max-w-7xl mx-auto my-20'>
             <h1 className='text-xl md:text-3xl font-bold'>
-                <span className='text-[#6A38C2]'>Latest </span> Job Openings
+                <span className='text-indigo-600'>Latest </span> Job Openings
             </h1>
             
             {loading ? (
@@ -28,7 +29,7 @@ const LatestJobs = () => {
                         <span>No Job Available</span>
                     ) : (
                         allJobs.slice(0, 6).map((job, idx) => (
-                            <LatestJobCard key={idx} job={job} />
+                            <JobCard key={idx} job={job} />
                         ))
                     )}
                 </div>

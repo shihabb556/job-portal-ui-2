@@ -13,7 +13,7 @@ const useGetAppliedJobs = () => {
         const fetchAppliedJobs = async () => {
             try {
                 const res = await baseApi.get(`/application/get` );
-                console.log(res.data);
+                console.log('from applied job',res.data);
                 if(res.data.success){
                     console.log('applied job:.',res?.data)
                     dispatch(setAllAppliedJobs(res.data?.application));
