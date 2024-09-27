@@ -2,125 +2,120 @@ import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import {  useSelector } from 'react-redux'
-
-
-
-import { toast } from 'sonner';
-
-
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
     const { user } = useSelector(store => store.auth);
-  
-
 
     return (
-        <div className='w-full bg-indigo-500 sticky top-0 z-50 shadow-md text-gray-700'>
-            <div className='flex items-center px-3 justify-between mx-auto max-w-8xl h-16'>
+        <nav className="w-full bg-white sticky top-0 z-50 shadow-lg border-b border-gray-200">
+            <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16">
+                
+                {/* Logo */}
                 <div>
-                    <Link to={'/'}>
-                       <h1 className='md:text-2xl text-xl text-md  font-bold pb-1 md:pb-0 text-gray-200'>Job<span className='text-red-300'>Portal</span></h1>
-                    </Link>
+                    <NavLink to={'/'} className="flex items-center pr-2">
+                        <h1 className="text-2xl font-extrabold text-indigo-600">
+                            Job<span className="text-red-500">Portal</span>
+                        </h1>
+                    </NavLink>
                 </div>
-                <div className='flex items-center gap-3 md:gap-8 '>
-                    <ul className='flex font-medium items-center text-sm sm:text-md gap-5 '>
+
+                {/* Links */}
+                <div className="flex items-center gap-8">
+                    <ul className="flex items-center space-x-6 font-medium">
                         {
                             user && user.role === 'recruiter' ? (
                                 <>
-                                    <li className='text-gray-300 hover:text-gray-200'><Link to="/recruiter/companies">Companies</Link></li>
-                                    <li className='text-gray-300 hover:text-gray-200'><Link to="/recruiter/jobs">Jobs</Link></li>
+                                    <li>
+                                        <NavLink to="/recruiter/companies" className="text-gray-600 hover:text-indigo-500">
+                                            Companies
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/recruiter/jobs" className="text-gray-600 hover:text-indigo-500">
+                                            Jobs
+                                        </NavLink>
+                                    </li>
                                 </>
                             ) : (
                                 <>
-                                    <li className='text-gray-200 hover:text-gray-300'><Link to="/">Home</Link></li>
-                                    <li className='text-gray-200 hover:text-gray-300'><Link to="/jobs">Jobs</Link></li>
-                                 
+                                    <li>
+                                        <NavLink to="/" className="text-gray-600 hover:text-indigo-500">
+                                            Home
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/jobs" className="text-gray-600 hover:text-indigo-500">
+                                            Jobs
+                                        </NavLink>
+                                    </li>
+                                    <li className='hidden sm:block'>
+                                        <NavLink to="/saved-jobs" className=" text-gray-600 hover:text-indigo-500">
+                                            Saved Jobs
+                                        </NavLink>
+                                    </li>
+                                    <li className='hidden sm:block'>
+                                       <NavLink to="/interview-prep/qna" className=" text-gray-600 hover:text-indigo-600">Interview Preparation</NavLink>
+                                    </li>
                                 </>
                             )
                         }
-
-
                     </ul>
+
+                    {/* User Profile / Login */}
                     {
                         !user ? (
-                            <div className='flex items-center gap-2'>
-                                <Link to="/login"><Button sixe='sm' >Login</Button></Link>
-                                {/* <Link to="/signup" className='hidden md:block'><Button size='sm' className="bg-[#6A38C2] hover:bg-[#5b30a6]">Signup</Button> 
-                                 </Link>
-                                 */}
+                            <div>
+                                <NavLink to="/login">
+                                    <Button variant="primary" size="sm">Login</Button>
+                                </NavLink>
                             </div>
                         ) : (
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Avatar className="cursor-pointer">
-                                        <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                        <AvatarImage src={user?.profile?.profilePhoto} alt="User Avatar" />
                                     </Avatar>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-80">
-                                    <div className=''>
-                                        <Link to={"/profile"} className='flex gap-2 space-y-2 border-b-2 border-b- p-2'>
-                                            <Avatar className="cursor-pointer">
-                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
-                                            </Avatar>
-                                                <div>
-                                                <h4 className='font-medium'>{user?.fullname}</h4>
-                                            </div>
-                                        </Link>
-                                        
-                                        <div className='flex flex-col my-2 text-gray-600'>
-                                            {
-                                                user && user?.role === 'student' && (
-                                                    <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
-                                                      <ul className='flex gap-2 flex-col'>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/">Home</Link>
-                                                        </li>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/jobs">Jobs</Link>
-                                                        </li>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/profile">Profile</Link>
-                                                        </li>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/interview-prep/qna">  Interview Preparation</Link>
-                                                        </li>
-                                                      </ul>
-                                                    </div>
-                                                )
-                                            }
-                                              {  user && user?.role === 'recruiter' && (
-                                                    <div className='flex w-fit items-center gap-2 p-2 cursor-pointer'>
-                                                      <ul className='flex gap-2 flex-col'>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/recruiter/companies">Companies</Link>
-                                                        </li>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/recruiter/jobs">Jobs</Link>
-                                                        </li>
-                                                        <li className='hover:text-indigo-600'>  
-                                                            <Link to="/profile">Profile</Link>
-                                                        </li>
-                                                      
-                                                      </ul>
-                                                    </div>
-                                                )
-                                            
-                                            }
-
+                                <PopoverContent className="w-64 p-4">
+                                    <div className="flex items-center gap-3 mb-3 border-b pb-2">
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt="User Avatar" />
+                                        </Avatar>
+                                        <div>
+                                            <h4 className="font-medium">{user?.fullname}</h4>
+                                            <p className="text-sm text-gray-500">{user?.role}</p>
                                         </div>
+                                    </div>
+
+                                    <div className="flex flex-col space-y-2">
+                                        {
+                                            user?.role === 'student' ? (
+                                                <>
+                                                    <NavLink  to="/" className="hover:text-indigo-600">Home</NavLink>
+                                                    <NavLink to="/jobs" className="hover:text-indigo-600">Jobs</NavLink>
+                                                    <NavLink to="/saved-jobs" className="hover:text-indigo-600">Saved Jobs</NavLink>
+                                                    <NavLink to="/profile" className="hover:text-indigo-600">Profile</NavLink>
+                                                    <NavLink to="/interview-prep/qna" className="hover:text-indigo-600">Interview Preparation</NavLink>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <NavLink to="/recruiter/companies" className="hover:text-indigo-600">Companies</NavLink>
+                                                    <NavLink to="/recruiter/jobs" className="hover:text-indigo-600">Jobs</NavLink>
+                                                    <NavLink to="/profile" className="hover:text-indigo-600">Profile</NavLink>
+                                                </>
+                                            )
+                                        }
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         )
                     }
-
                 </div>
             </div>
-
-        </div>
+        </nav>
     )
 }
 
-export default Navbar
+export default Navbar;

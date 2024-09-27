@@ -36,3 +36,44 @@
   border-radius: 10px;
   border: 3px solid #f1f1f1;
 }
+
+
+body {
+  background-color: #1a1a1a; /* Dark background for the body */
+  color: #e5e5e5; /* Light text color */
+}
+
+button {
+  background-color: #4a4a4a; /* Dark button background */
+  color: #fff; /* White text for buttons */
+}
+
+button:hover {
+  background-color: #616161; /* Lighten button on hover */
+}
+
+input, select, textarea {
+  background-color: #2a2a2a; /* Dark input backgrounds */
+  color: #e5e5e5; /* Light text for inputs */
+}
+
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: #888888; /* Gray placeholder text */
+}
+
+
+
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #007bff; /* Blue color */
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

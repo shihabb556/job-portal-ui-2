@@ -4,78 +4,63 @@ import { ArrowRightCircle, Bookmark, BookmarkCheck } from 'lucide-react';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
-import handleLimitDescription from '@/utils/handleLimitDescription';
 import axios from 'axios';
-import baseApi from '@/utils/baseApi';
 import { BASE_URL } from '@/utils/constant';
 import { toast } from 'sonner';
 
-const JobCard = ({ job, userId }) => {
+const JobCard = ({ job, userId, onRemoveSavedJob }) => {
   const navigate = useNavigate();
   const [isSaved, setIsSaved] = useState(false);
-
-  console.log('userId:',userId,'job: ',job)
 
   useEffect(() => {
     const checkIfJobIsSaved = async () => {
       try {
         const jobId = job?._id;
-  
         if (!userId || !jobId) return;
-  
+
         const response = await axios.post(`${BASE_URL}/job/is-saved`, { userId, jobId }, {
           headers: { 'Content-Type': 'application/json' }
         });
-  
-        setIsSaved(response.data.isSaved); // Set state based on the backend response
+
+        setIsSaved(response.data.isSaved);
       } catch (error) {
         console.error('Error checking saved job status:', error.message);
       }
     };
-  
-    checkIfJobIsSaved(); // Check saved status on mount
-  }, [job, userId]);  // Runs whenever the job or userId changes
-  
+
+    checkIfJobIsSaved();
+  }, [job, userId]);
 
   const handleJobNavigation = () => {
-  
     navigate(`/job/${job?._id}`);
   };
 
   const toggleSaveJob = async () => {
+    if (!userId) {
+      toast.error('Please log in to save jobs!');
+      return;
+    }
+
     try {
       const jobId = job?._id;
-      console.log('Toggling job save:', { userId, jobId });
-  
-      if (!userId || !jobId) {
-        console.error("Missing userId or jobId");
-        return;
-      }
-  
       const url = isSaved ? `${BASE_URL}/job/unsave-job` : `${BASE_URL}/job/save-job`;
-      const action = isSaved ? 'unsave' : 'save';
-  
       const response = await axios.post(url, { userId, jobId }, {
         headers: { 'Content-Type': 'application/json' }
       });
-  
+
       if (response.status === 200) {
-        setIsSaved(!isSaved); // Toggle the saved state only after successful response
-        console.log(`Job ${action}d successfully`);
-      } else {
-        console.error(`Failed to ${action} the job:`, response.data);
+        setIsSaved(!isSaved);
+        if (!isSaved) {
+          toast.success('Job saved successfully!');
+        } else {
+          toast.success('Job unsaved successfully!');
+          onRemoveSavedJob(jobId);
+        }
       }
-  
     } catch (error) {
-      if (error.response) {
-        console.error('Error response from server:', error.response.data);
-      } else {
-        console.error('Error toggling job save:', error.message);
-      }
+      console.error('Error toggling job save:', error.message);
     }
   };
-  
-  
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
@@ -85,60 +70,56 @@ const JobCard = ({ job, userId }) => {
   };
 
   return (
-    <div className="p-2 md:p-5 rounded-md shadow-xl border border-gray-[1px] border-t-gray-400">
-      <div className="flex items-center justify-between">
-        <h1 className="font-bold text-lg my-2 text-gray-700">{job?.title}</h1>
-        <Button
-          variant="secondary"
-          className="rounded-full p-2 hover:bg-gray-300"
-          onClick={toggleSaveJob}
-        >
-          {isSaved ? <BookmarkCheck className='text-yellow-600' /> : <Bookmark />}
-        </Button>
-      </div>
-
-      <div className="flex items-center gap-2 my-2">
-        <Button className="p-6" variant="secondary" size="icon">
-          <Avatar>
-            <AvatarImage src={job?.company?.logo} />
-          </Avatar>
-        </Button>
-        <div>
-          <h1 className="font-medium text-md text-gray-700">{job?.company?.name}</h1>
-          <p className="text-sm text-gray-500">{job?.location}</p>
-        </div>
-      </div>
-
-      <div>
-        <p className="text-sm text-gray-600">
-          {handleLimitDescription(job?.description, 120)}
-        </p>
-      </div>
-
-      <div className="flex items-center gap-2 mt-4">
-        <Badge className={'text-blue-700 font-bold'} variant="ghost">
-          {job?.position} Positions
-        </Badge>
-        <Badge className={'text-[#F83002] font-bold'} variant="ghost">
-          {job?.jobType}
-        </Badge>
-      </div>
-
-      <div className="flex items-center justify-between gap-4 mt-4 w-full relative">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">
-            {daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago`}
-          </p>
-        </div>
-
-        <Button
-          className="flex gap-1 ml-auto bg-gray-200 border-gray-400 hover:bg-gray-300 text-blue-600"
-          onClick={handleJobNavigation} // Correctly handle navigation outside async function
-        >
-          Details <ArrowRightCircle />
-        </Button>
+    <div className="p-5 rounded-lg bg-gray-800 border border-gray-800 hover:border-indigo-800 shadow-xl hover:shadow-2xl transition-all duration-100   hover:scale-[1.03] transform">
+    <div className="flex items-center justify-between">
+      <h1 className="font-bold text-lg text-white">{job?.title}</h1>
+      <div
+        className="rounded-full p-2 hover:bg-gray-700 cursor-pointer transition-colors"
+        onClick={toggleSaveJob}
+      >
+        {isSaved ? <BookmarkCheck className="text-indigo-400" /> : <Bookmark className="text-gray-400" />}
       </div>
     </div>
+  
+    <div className="flex items-center gap-3 my-4">
+      <Avatar>
+        <AvatarImage src={job?.company?.logo} />
+      </Avatar>
+      <div>
+        <h1 className="font-medium text-md text-gray-300">{job?.company?.name}</h1>
+        <p className="text-sm text-gray-500">{job?.location}</p>
+      </div>
+    </div>
+  
+    <div>
+      <p className="text-sm text-gray-400">
+        {job?.description.length > 120 ? `${job?.description.slice(0, 120)}...` : job?.description}
+      </p>
+    </div>
+  
+    <div className="flex items-center gap-2 mt-4">
+      <Badge className="text-blue-400  font-bold bg-gray-800 border hover:bg-gray-800 border-gray-700">
+        {job?.position} Positions
+      </Badge>
+      <Badge className="text-gray-300 font-bold bg-gray-800 hover:bg-gray-800 border border-gray-700">
+        {job?.jobType}
+      </Badge>
+    </div>
+  
+    <div className="flex items-center justify-between gap-4 mt-6">
+      <p className="text-sm text-gray-500">
+        {daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago`}
+      </p>
+  
+      <div
+        className="bg-indigo-600 flex gap-3 cursor-pointer hover:bg-indigo-500 text-white px-4 py-2 rounded-md"
+        onClick={handleJobNavigation}
+      >
+        More Details <ArrowRightCircle />
+      </div>
+    </div>
+  </div>
+  
   );
 };
 

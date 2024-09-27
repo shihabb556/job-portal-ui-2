@@ -11,17 +11,17 @@ const categories = [
 
 const PopularCategories = () => {
     return (
-        <section className="bg-gray-100 py-16">
+        <section className="mb-5 mt-[8rem]">
             <div className="container mx-auto text-center">
-                <h2 className="text-3xl font-bold">Popular Job Categories</h2>
+                <h2 className="text-3xl font-bold text-white">Popular Job Categories</h2>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                     {categories.map((category, idx) => (
                         <div
                             key={idx}
-                            className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition"
+                            className="p-6 bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition transform hover:scale-105"
                         >
                             <div className="text-blue-500 mx-auto mb-4">{category.icon}</div>
-                            <h3 className="font-bold">{category.name}</h3>
+                            <h3 className="font-bold text-white">{category.name}</h3>
                         </div>
                     ))}
                 </div>

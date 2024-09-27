@@ -15,15 +15,14 @@ import {
     LucideSidebarClose,
     LucideSidebarOpen
 } from 'lucide-react';
-import { setLoading } from '@/redux/authSlice';
 
 const Jobs = () => {
-    const jobListRef = useRef(null); // Ref for the job list container
+    const jobListRef = useRef(null);
 
     useGetAllJobs(); // Fetch initial jobs
 
-    const { allJobs, searchedQuery, loading } = useSelector(selectJobData); // Get loading from Redux
-    const {user} = useSelector(store=> store.auth);
+    const { allJobs, searchedQuery, loading } = useSelector(selectJobData);
+    const { user } = useSelector(store => store.auth);
 
     const [searchQuery, setSearchQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -31,16 +30,9 @@ const Jobs = () => {
     const [isBottomBar, setIsBottomBar] = useState(true);
     const [visibleJobs, setVisibleJobs] = useState(10); // Start by showing 10 jobs
 
-    // Debugging: Check if jobs are being fetched properly
-    console.log('All jobs:', allJobs);
-
     // Filtered Jobs Calculation
     const filteredJobs = React.useMemo(() => {
-        setLoading(true);
-
-        if (!allJobs || !Array.isArray(allJobs)) return []; // Ensure allJobs is an array
-
-        // Filter logic
+        if (!allJobs || !Array.isArray(allJobs)) return [];
         const jobs = allJobs.filter((job) => {
             const matchesLocation = searchedQuery.location
                 ? job.location?.toLowerCase() === searchedQuery.location.toLowerCase()
@@ -66,15 +58,9 @@ const Jobs = () => {
             );
         });
 
-        setLoading(false);
         return jobs;
     }, [allJobs, searchedQuery, searchQuery]);
-     
-    console.log('loading ; ',loading)
-    // Debugging: Check filtered jobs
-    console.log('Filtered jobs:', filteredJobs);
 
-    // Load More Jobs (increment the visible jobs)
     const loadMoreJobs = () => {
         setVisibleJobs((prevVisible) => prevVisible + 10); // Load 10 more jobs each time
     };
@@ -99,16 +85,16 @@ const Jobs = () => {
     };
 
     return (
-        <div className=''>
+        <div className="bg-gradient-to-br from-[#141E30] to-[#243B55] text-gray-100 min-h-screen">
             <Navbar />
-            <div className="w-full border relative">
+            <div className="w-full border relative bg-gray-800">
                 <input
                     onClick={() => setIsOpen(false)}
                     type="text"
                     placeholder="Search Jobs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="fixed  right-3 mt-2 z-30 w-full w-[80vw] sm:w-[40vw] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm placeholder-gray-500 mx-3"
+                    className="fixed right-3 mt-2 z-30 w-[80vw] sm:w-[40vw] px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 shadow-sm text-gray-100 placeholder-gray-400"
                 />
             </div>
 
@@ -120,16 +106,12 @@ const Jobs = () => {
 
                     <div className="flex-1 w-full min-h-screen" onClick={() => setIsOpen(false)}>
                         {loading ? (
-                          <div className="flex justify-center items-center h-screen">
-                               <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin"></div>
-                          </div>
-                      
+                            <div className="flex justify-center items-center h-screen">
+                                <div className="loader border-t-4 border-indigo-500 rounded-full w-8 h-8 animate-spin"></div>
+                            </div>
                         ) : filteredJobs.length > 0 ? (
-                            <div
-                                ref={jobListRef}
-                                className="flex-1 "
-                            >
-                                <div className="grid xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-5 pb-[2em] ">
+                            <div ref={jobListRef} className="flex-1 mt-5 pb-[5rem]">
+                                <div className="grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-10 pb-[2.5em]">
                                     {filteredJobs
                                         .slice(0, visibleJobs)
                                         .map((job, idx) => (
@@ -140,37 +122,37 @@ const Jobs = () => {
                                                 transition={{ duration: 0.3 }}
                                                 key={job.id || idx}
                                             >
-                                                <JobCard job={job} userId={user._id}/>
+                                                <JobCard job={job} userId={user._id} />
                                             </motion.div>
                                         ))}
                                 </div>
 
                                 {visibleJobs < filteredJobs.length && (
                                     <div className="flex justify-center">
-                                        <Button className="rounded" onClick={loadMoreJobs}>
+                                        <div className="rounded text-indigo-400 border cursor-pointer border-indigo-500 hover:text-indigo-500 p-4 text-bold "      onClick={loadMoreJobs}  >
                                             Load More Jobs
-                                        </Button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
                         ) : (
-                            <div className="m-10">Job not Found!</div>
+                            <div className="m-10 text-gray-400">Job not Found!</div>
                         )}
                     </div>
                 </div>
             </div>
 
-            {/* Fixed in bottom-right */}
-            <div className={`fixed bottom-5 right-5 flex items-center gap-1`}>
+            {/* Fixed bottom-right bar */}
+            <div className={`fixed bottom-3 mb-[1em] sm:mb-[2em] right-5 flex items-center gap-1`}>
                 <button
-                    className="text-gray-800 hover:text-gray-700 bg-gray-100 rounded p-1 block md:hidden"
+                    className="text-gray-100 hover:text-gray-300 bg-gray-700 rounded p-1 block md:hidden"
                     onClick={() => setIsBottomBar(!isBottomBar)}
                 >
                     {isBottomBar ? <LucideSidebarOpen /> : <LucideSidebarClose />}
                 </button>
                 <div className={`flex items-center gap-1 ${isBottomBar ? 'block' : 'hidden'}`}>
                     <Button
-                        className={`bg-blue-500 hover:bg-blue-400 focus:outline-none block  w-[7em] mx-1 ${isOpen ? 'bg-red-500 hover:bg-red-400' : ''}`}
+                        className={`bg-indigo-600 hover:bg-indigo-500 text-gray-200 w-[7em] mx-1 ${isOpen ? 'bg-red-600 hover:bg-red-500' : ''}`}
                         onClick={handleSidebar}
                     >
                         {isOpen ? (
@@ -186,7 +168,7 @@ const Jobs = () => {
 
                     <Button
                         onClick={handleScrollToggle}
-                        className="text-white px-4 py-2 rounded focus:outline-none"
+                        className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded focus:outline-none"
                     >
                         {scrollToBottom ? (
                             <div className="flex gap-1">

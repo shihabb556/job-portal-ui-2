@@ -12,6 +12,7 @@ import SignIn from './components/auth/test/SignIn';
 import TermsAndConditions from './components/TermsAndConditions';
 import ContactUs from './components/ContactUs';
 import AboutUs from './components/AboutUs';
+import SavedJobs from './components/SavedJobs';
 
 
 
@@ -57,6 +58,7 @@ const appRouter = createBrowserRouter([
   { path: '/profile', element: <Profile /> },
   { path: '/jobs/test', element: <JobsPage /> },
   { path: '/jobs', element: <Jobs /> },
+  { path: '/saved-jobs', element: <SavedJobs /> },
   { path: '/browse', element: <Browse /> },
   { path: '/job/:id', element: <JobDetails /> },
   { path: '/interview-prep/qna', element: <InterviewQna /> },
@@ -114,7 +116,10 @@ function App() {
            <div className="loader border-t-4 border-blue-500 rounded-full w-8 h-8 animate-spin m-10"></div>
         </div>
       }>
-        <RouterProvider router={appRouter} />
+        <div className='dark'>
+
+           <RouterProvider router={appRouter} />
+        </div>
       </Suspense>
     </ErrorBoundary>
   );

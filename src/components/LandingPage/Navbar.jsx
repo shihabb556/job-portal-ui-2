@@ -58,6 +58,9 @@ const Navbar = () => {
                         <Link to="/jobs" className="text-gray-800 hover:text-blue-600 transition" onClick={toggleMenu}>
                             Jobs
                         </Link>
+                        <Link to="/saved-jobs" className="text-gray-800 hover:text-blue-600 transition" onClick={toggleMenu}>
+                            Saved Jobs
+                        </Link>
                         <Link to="/about" className="text-gray-800 hover:text-blue-600 transition" onClick={toggleMenu}>
                             About Us
                         </Link>

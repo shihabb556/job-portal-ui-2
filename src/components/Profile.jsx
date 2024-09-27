@@ -27,11 +27,11 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <div className="min-h-screen"> {/* Dark theme styles */}
             <Navbar />
 
             {/* Edit Profile Button */}
-            <div className="max-w-4xl p-5 mx-auto bg-white border border-gray-200 rounded-2xl my-5">
+            <div className="max-w-4xl p-5 mx-auto bg-gray-800 border border-gray-700 rounded-2xl my-5">
                 <Button 
                     variant="outline" 
                     onClick={() => setIsEditing(!isEditing)} // Toggle edit mode
@@ -40,7 +40,7 @@ const Profile = () => {
                 </Button>
             </div>
 
-            <div className="max-w-4xl p-5 mx-auto bg-white border border-gray-200 rounded-2xl my-5">
+            <div className="max-w-4xl p-5 mx-auto bg-gray-800 border border-gray-700 rounded-2xl my-5">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-4 flex-col">
                         <div className='flex items-center gap-5'>
@@ -91,7 +91,7 @@ const Profile = () => {
                             <span>Skills: </span> 
                             {user?.profile?.skills?.length ? (
                                 user?.profile?.skills.map((item, index) => (
-                                    <span key={index} className="px-2 py-1 bg-gray-200 rounded-lg">{item}</span>
+                                    <span key={index} className="px-2 py-1 bg-gray-600 rounded-lg">{item}</span>
                                 ))
                             ) : (
                                 <span>No skills added yet.</span>
@@ -106,7 +106,7 @@ const Profile = () => {
 
                     <div className="flex items-center gap-3 justify-between">
                         <span> Resume: {user?.profile?.resume ? (
-                            <a href={user?.profile?.resume} target="_blank" rel="noopener noreferrer" className="text-blue-500">View Resume</a>
+                            <a href={user?.profile?.resume} target="_blank" rel="noopener noreferrer" className="text-blue-400">View Resume</a>
                         ) : 'NA'}</span>
                         {isEditing && (
                             <Button variant="outline" size="sm" onClick={() => setOpenResumeDialog(true)}>
@@ -118,15 +118,17 @@ const Profile = () => {
             </div>
 
             {user?.role === 'student' && (
-                <div className="max-w-4xl p-5 mx-auto bg-white rounded-2xl border-b-2 border-gray-200">
+                <div className="max-w-4xl p-5 mx-auto bg-gray-800 rounded-2xl border-b-2 border-gray-700">
                     <h1 className="font-bold text-lg mb-5">Applied Jobs</h1>
                     <AppliedJobTable />
                 </div>
             )}
 
             <div className="max-w-4xl w-full mx-auto flex p-5 items-center gap-2 cursor-pointer">
-                <LogOut />
-                <Button onClick={handleLogout} variant="link">Logout</Button>
+                <Button onClick={handleLogout} variant="link" className='flex gap-3 border shadow shadow-xl'>  
+                    <LogOut />
+                    Logout
+                </Button>
             </div>
 
             {/* Update Profile Dialog */}

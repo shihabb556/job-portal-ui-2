@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { RadioGroup } from '../ui/radio-group'
-import { Button } from '../ui/button'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { BASE_URL, USER_API_END_POINT } from '@/utils/constant'
-import { toast } from 'sonner'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLoading, setUser } from '@/redux/authSlice'
-import { Loader2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../shared/Navbar';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '@/utils/constant';
+import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading, setUser } from '@/redux/authSlice';
+import { Loader2 } from 'lucide-react';
 
- 
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: "",
     });
-    const { loading,user } = useSelector(store => store.auth);
+    const { loading, user } = useSelector(store => store.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    }
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        if(!input.email || !input.password){
-            toast.error("Reuired field should not be empty!")
-            console.log('error')
+        if (!input.email || !input.password) {
+            toast.error("Required fields should not be empty!");
             return;
         }
 
@@ -41,67 +38,71 @@ const Login = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-              
             });
             if (res?.data?.success) {
-                // localStorage.setItem("job-portal_token", JSON.stringify(res?.data?.token));
-                // localStorage.setItem("job-portal_user", JSON.stringify(res?.data?.user));
-                console.log(res.data)
                 dispatch(setUser({ user: res?.data?.user, token: res?.data?.token }));
                 navigate("/profile");
-                console.log(res?.data);
                 toast.success(res?.data?.message);
             }
         } catch (error) {
-            console.log(error);
             toast.error(error?.response?.data?.message);
         } finally {
             dispatch(setLoading(false));
         }
-    }
-    useEffect(()=>{
-        if(user){
+    };
+
+    useEffect(() => {
+        if (user) {
             navigate("/");
         }
-    },[])
+    }, [user, navigate]);
+
     return (
-        <div>
+        <div className=" min-h-screen">
             <Navbar />
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                <form onSubmit={submitHandler} className='w-[88vw] sm:w-[70vw] md:w-1/2  border border-gray-200 rounded-md p-4 my-10'>
-                    <h1 className='font-bold text-xl mb-5'>Login</h1>
+                <form onSubmit={submitHandler} className='w-[88vw] sm:w-[70vw] md:w-1/2 bg-gray-800 border border-gray-600 rounded-md p-4 my-10 '>
+                    <h1 className='font-bold text-xl mb-5 text-white'>Login</h1>
                     <div className='my-2'>
-                        <Label>Email</Label>
+                        <Label className="text-white">Email</Label>
                         <Input
                             type="email"
                             value={input.email}
                             name="email"
                             onChange={changeEventHandler}
                             placeholder="example@gmail.com"
+                            className="bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
                     </div>
 
                     <div className='my-2'>
-                        <Label>Password</Label>
+                        <Label className="text-white">Password</Label>
                         <Input
                             type="password"
                             value={input.password}
                             name="password"
-                            required
                             onChange={changeEventHandler}
-                            placeholder="example-124"
+                            placeholder="example-123"
+                            className="bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
                         />
                     </div>
 
                     {
-                        loading ? <Button className="w-[9em] my-4 bg-gray-400"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-[6em] my-4">Login</Button>
+                        loading ? (
+                            <Button className="w-[9em] my-4 bg-gray-400">
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-[6em] my-4 bg-blue-500 hover:bg-blue-600 transition">Login</Button>
+                        )
                     }
-                    <div className='text-sm'>Don't have an account? <Link to="/signup" className='text-blue-600'>Signup</Link></div>
+                    <div className='text-sm text-white'>Don't have an account? <Link to="/signup" className='text-blue-400'>Signup</Link></div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;

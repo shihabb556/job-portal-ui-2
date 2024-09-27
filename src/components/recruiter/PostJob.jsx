@@ -96,37 +96,55 @@ const PostJob = () => {
     }));
 
     return (
-        <div>
+        <div className="bg-gray-900 min-h-screen">
             <Navbar />
             <div className='flex items-center justify-center w-screen my-5 p-5'>
-                <form onSubmit={submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
+                <form onSubmit={submitHandler} className='p-8 max-w-4xl bg-gray-800 border border-gray-600 shadow-lg rounded-md'>
                     <div className='grid grid-cols-2 gap-4'>
                         <div>
-                            <Label>Title</Label>
+                            <Label className="text-gray-300">Title</Label>
                             <Input
                                 type="text"
                                 name="title"
                                 value={input.title}
                                 onChange={changeEventHandler}
-                                className="my-1"
+                                className="my-1 bg-gray-700 text-white placeholder-gray-500"
+                                placeholder="Job Title"
                             />
                         </div>
 
                         {/* Select for Company */}
                         <div>
-                            <Label>Company</Label>
+                            <Label className="text-gray-300">Company</Label>
                             <Select
                                 options={companyOptions}
                                 value={companyOptions.find(comp => comp.value === input.companyId)}
                                 onChange={(value) => handleSelectChange('companyId', value)}
                                 isSearchable
                                 placeholder="Select a Company"
+                                classNamePrefix="select"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                        color: 'white'
+                                    }),
+                                    menu: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#1f2937' : '#374151', // dark gray on focus
+                                        color: 'white',
+                                    }),
+                                }}
                             />
                         </div>
 
                         {/* Select for Category with Search and Scroll */}
                         <div>
-                            <Label>Category</Label>
+                            <Label className="text-gray-300">Category</Label>
                             <Select
                                 options={categories}
                                 value={categories.find(cat => cat.value === input.category)}
@@ -137,8 +155,19 @@ const PostJob = () => {
                                     menu: base => ({
                                         ...base,
                                         maxHeight: '150px', // Set fixed height with scroll
-                                        overflowY: 'auto'
-                                    })
+                                        overflowY: 'auto',
+                                        backgroundColor: '#374151', // dark gray
+                                    }),
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                        color: 'white',
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#1f2937' : '#374151', // dark gray on focus
+                                        color: 'white',
+                                    }),
                                 }}
                                 placeholder="Select Category"
                             />
@@ -146,88 +175,120 @@ const PostJob = () => {
 
                         {/* Job Type Select */}
                         <div>
-                            <Label>Job Type</Label>
+                            <Label className="text-gray-300">Job Type</Label>
                             <Select
                                 options={jobTypes}
                                 value={jobTypes.find(type => type.value === input.jobType)}
                                 onChange={(value) => handleSelectChange('jobType', value)}
                                 placeholder="Select Job Type"
+                                classNamePrefix="select"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                        color: 'white',
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#1f2937' : '#374151', // dark gray on focus
+                                        color: 'white',
+                                    }),
+                                }}
                             />
                         </div>
 
                         {/* Location Select */}
                         <div>
-                            <Label>Location</Label>
+                            <Label className="text-gray-300">Location</Label>
                             <Select
                                 options={locations}
                                 value={locations.find(loc => loc.value === input.location)}
                                 onChange={(value) => handleSelectChange('location', value)}
                                 placeholder="Select Location"
+                                classNamePrefix="select"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                        color: 'white',
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#1f2937' : '#374151', // dark gray on focus
+                                        color: 'white',
+                                    }),
+                                }}
                             />
                         </div>
 
                         {/* Experience Level Select */}
                         <div>
-                            <Label>Experience Level</Label>
+                            <Label className="text-gray-300">Experience Level</Label>
                             <Select
                                 options={experienceLevels}
                                 value={experienceLevels.find(exp => exp.value === input.experience)}
                                 onChange={(value) => handleSelectChange('experience', value)}
                                 placeholder="Select Experience Level"
+                                classNamePrefix="select"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#374151', // dark gray
+                                        color: 'white',
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#1f2937' : '#374151', // dark gray on focus
+                                        color: 'white',
+                                    }),
+                                }}
                             />
                         </div>
 
                         {/* Salary Field */}
                         <div>
-                            <Label>Salary</Label>
+                            <Label className="text-gray-300">Salary</Label>
                             <Input
                                 type="number"
                                 name="salary"
                                 value={input.salary}
                                 onChange={changeEventHandler}
-                                className="my-1"
+                                className="my-1 bg-gray-700 text-white placeholder-gray-500"
+                                placeholder="Salary"
                             />
                         </div>
 
                         {/* Position Field */}
                         <div>
-                            <Label>Number of Positions</Label>
+                            <Label className="text-gray-300">Number of Positions</Label>
                             <Input
                                 type="number"
                                 name="position"
                                 value={input.position}
                                 onChange={changeEventHandler}
-                                className="my-1"
+                                className="my-1 bg-gray-700 text-white placeholder-gray-500"
+                                placeholder="Number of Positions"
                             />
                         </div>
                     </div>
 
-                    <div className='pb-12'>
-                        <Label>Description</Label>
+                    {/* Description Field */}
+                    <div className='mt-4'>
+                        <Label className="text-gray-300">Description</Label>
                         <ReactQuill
+                            theme="snow"
                             ref={quillRef}
-                            className='h-[290px]'
                             value={input.description}
                             onChange={handleDescriptionChange}
-                            modules={QuillModules}
-                            formats={QuillFormats}
-                            theme='snow'
+                            className='my-1 bg-white text-black min-h-[12rem]'
                         />
                     </div>
 
-                    {loading ? (
-                        <Button className="w-full my-4">
-                            <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                    <div className='mt-6'>
+                        <Button type='submit' disabled={loading} className='bg-blue-600 hover:bg-blue-500 transition duration-200'>
+                            {loading ? <Loader2 className='animate-spin' /> : 'Post Job'}
                         </Button>
-                    ) : (
-                        <Button type="submit" className="w-full my-4">Post New Job</Button>
-                    )}
-
-                    {companies.length === 0 && (
-                        <p className='text-xs text-red-600 font-bold text-center my-3'>
-                            *Please register a company first, before posting a job
-                        </p>
-                    )}
+                    </div>
                 </form>
             </div>
         </div>
@@ -235,19 +296,3 @@ const PostJob = () => {
 };
 
 export default PostJob;
-
-// Quill Configuration
-const QuillModules = {
-    toolbar: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['bold', 'italic', 'underline'],
-        ['link'],
-        [{ 'align': [] }],
-        ['clean']
-    ],
-};
-
-const QuillFormats = [
-    'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'link', 'align'
-];

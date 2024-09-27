@@ -63,10 +63,10 @@ const InterviewQna = () => {
   const paginatedData = qnaData.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
-    <div>
+    <div className=" dark:text-gray-200 min-h-screen">
       <Navbar />
       <div className='p-6 max-w-5xl mx-auto'>
-        <h2 className='text-2xl font-bold mb-4'>Interview Preparation Questions and Answers</h2>
+        <h2 className='text-2xl font-bold mb-4 dark:text-gray-200'>Interview Preparation Questions and Answers</h2>
 
         <div className='mb-4'>
           <label htmlFor="category-select" className='mr-2'>Select Category:</label>
@@ -77,7 +77,7 @@ const InterviewQna = () => {
               setCurrentPage(1); // Reset to the first page on category change
             }}
             value={selectedCategory}
-            className='border rounded px-2 py-1'
+            className='border rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100'
           >
             {categories.map((category) => (
               <option key={category} value={category}>
@@ -96,7 +96,7 @@ const InterviewQna = () => {
           {!loading && !error && paginatedData.length > 0 && (
             <div>
               {paginatedData.map((item, index) => (
-                <div key={index} className='mb-4 border rounded-lg shadow'>
+                <div key={index} className='mb-4 border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
                   <div className='flex justify-between items-center p-4 cursor-pointer' onClick={() => toggleOpen(index)}>
                     <h3 className={`font-semibold ${readQuestions.has(index) ? 'line-through text-gray-500' : ''}`}>
                       {item.question}
@@ -104,7 +104,7 @@ const InterviewQna = () => {
                     {openIndexes.includes(index) ? <ChevronUp /> : <ChevronDown />}
                   </div>
                   {openIndexes.includes(index) && (
-                    <div className='p-4 bg-gray-100'>
+                    <div className='p-4 bg-gray-100 dark:bg-gray-700'>
                       <MarkdownViewer markdown={item.answer} />
                       <button
                         onClick={() => toggleRead(index)}
@@ -125,7 +125,7 @@ const InterviewQna = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className='border rounded px-4 py-2 disabled:opacity-50'
+            className='border rounded px-4 py-2 disabled:opacity-50 dark:bg-gray-700'
           >
             Previous
           </button>
@@ -133,14 +133,14 @@ const InterviewQna = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className='border rounded px-4 py-2 disabled:opacity-50'
+            className='border rounded px-4 py-2 disabled:opacity-50 dark:bg-gray-700'
           >
             Next
           </button>
         </div>
       </div>
-      <NewsletterSignup/>
-      <Footer/>
+      <NewsletterSignup />
+      <Footer />
     </div>
   );
 };

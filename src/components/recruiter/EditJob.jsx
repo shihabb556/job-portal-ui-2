@@ -4,7 +4,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useSelector } from 'react-redux';
-import Select from 'react-select';  // react-select for searchable dropdown
+import Select from 'react-select';
 import { toast } from 'sonner';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
@@ -13,22 +13,22 @@ import 'react-quill/dist/quill.snow.css';
 import baseApi from '@/utils/baseApi';
 import useGetAllCompanies from '@/hooks/useGetAllCompanies';
 
-// Sample data for categories, job types, locations, and experience levels
 const categories = [
     { value: 'technology', label: 'Technology' },
     { value: 'finance', label: 'Finance' },
-    // add more categories...
 ];
+
 const jobTypes = [
     { value: 'full-time', label: 'Full-time' },
     { value: 'part-time', label: 'Part-time' },
     { value: 'contract', label: 'Contract' },
 ];
+
 const locations = [
     { value: 'new-york', label: 'New York' },
     { value: 'san-francisco', label: 'San Francisco' },
-    // add more locations...
 ];
+
 const experienceLevels = [
     { value: 0, label: 'Fresher' },
     { value: 1, label: '1-2 Years' },
@@ -41,23 +41,22 @@ const EditJob = () => {
     const [input, setInput] = useState({
         title: "",
         requirements: "",
-        salary: 0,  // Updated to be a number
+        salary: 0,
         location: "",
         jobType: "",
-        experience: 0,  // Updated to be a number
-        position: 0,  // Updated to be a number
+        experience: 0,
+        position: 0,
         companyId: "",
         category: "",
         description: ""
     });
+
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { jobId } = useParams();
     const quillRef = useRef(null);
-
     const { companies } = useSelector(store => store?.company);
 
-    // Fetch job details for editing
     useEffect(() => {
         if (jobId) {
             const fetchJobDetails = async () => {
@@ -114,12 +113,12 @@ const EditJob = () => {
     };
 
     return (
-        <div>
+        <div className="bg-gray-900 text-white min-h-screen">
             <Navbar />
             <div className='flex items-center justify-center w-screen my-5 p-5'>
-                <form onSubmit={submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
+                <form onSubmit={submitHandler} className='p-8 max-w-4xl bg-gray-800 border border-gray-700 shadow-lg rounded-md'>
                     {companies.length === 0 ? (
-                        <p className="text-center text-red-600 font-bold my-5">
+                        <p className="text-center text-red-400 font-bold my-5">
                             *Please register a company first, before editing a job.
                         </p>
                     ) : (
@@ -131,7 +130,7 @@ const EditJob = () => {
                                     name="title"
                                     value={input.title}
                                     onChange={changeEventHandler}
-                                    className="my-1"
+                                    className="my-1 bg-gray-700 text-white border border-gray-600"
                                 />
                             </div>
 
@@ -142,13 +141,17 @@ const EditJob = () => {
                                     value={categories.find(cat => cat.value === input.category)}
                                     onChange={(value) => handleSelectChange('category', value)}
                                     isSearchable
-                                    classNamePrefix="select"
                                     styles={{
                                         menu: base => ({
                                             ...base,
-                                            maxHeight: '150px', // Set fixed height with scroll
-                                            overflowY: 'auto'
-                                        })
+                                            backgroundColor: '#1F2937',
+                                            color: '#FFFFFF',
+                                        }),
+                                        control: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            borderColor: '#4B5563',
+                                        }),
                                     }}
                                     placeholder="Select Category"
                                 />
@@ -161,6 +164,18 @@ const EditJob = () => {
                                     value={jobTypes.find(type => type.value === input.jobType)}
                                     onChange={(value) => handleSelectChange('jobType', value)}
                                     placeholder="Select Job Type"
+                                    styles={{
+                                        menu: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            color: '#FFFFFF',
+                                        }),
+                                        control: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            borderColor: '#4B5563',
+                                        }),
+                                    }}
                                 />
                             </div>
 
@@ -171,6 +186,18 @@ const EditJob = () => {
                                     value={locations.find(loc => loc.value === input.location)}
                                     onChange={(value) => handleSelectChange('location', value)}
                                     placeholder="Select Location"
+                                    styles={{
+                                        menu: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            color: '#FFFFFF',
+                                        }),
+                                        control: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            borderColor: '#4B5563',
+                                        }),
+                                    }}
                                 />
                             </div>
 
@@ -181,6 +208,18 @@ const EditJob = () => {
                                     value={experienceLevels.find(exp => exp.value === input.experience)}
                                     onChange={(value) => handleSelectChange('experience', value)}
                                     placeholder="Select Experience Level"
+                                    styles={{
+                                        menu: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            color: '#FFFFFF',
+                                        }),
+                                        control: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            borderColor: '#4B5563',
+                                        }),
+                                    }}
                                 />
                             </div>
 
@@ -191,7 +230,7 @@ const EditJob = () => {
                                     name="salary"
                                     value={input.salary}
                                     onChange={changeEventHandler}
-                                    className="my-1"
+                                    className="my-1 bg-gray-700 text-white border border-gray-600"
                                 />
                             </div>
 
@@ -202,7 +241,7 @@ const EditJob = () => {
                                     name="position"
                                     value={input.position}
                                     onChange={changeEventHandler}
-                                    className="my-1"
+                                    className="my-1 bg-gray-700 text-white border border-gray-600"
                                 />
                             </div>
 
@@ -214,33 +253,49 @@ const EditJob = () => {
                                     onChange={(value) => handleSelectChange('companyId', value)}
                                     isSearchable
                                     placeholder="Select Company"
-                                />
-                            </div>
-
-                            <div className='pb-12'>
-                                <Label>Description</Label>
-                                <ReactQuill
-                                    ref={quillRef}
-                                    className='h-[290px]'
-                                    value={input.description}
-                                    onChange={handleDescriptionChange}
-                                    modules={QuillModules}
-                                    formats={QuillFormats}
-                                    theme='snow'
+                                    styles={{
+                                        menu: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            color: '#FFFFFF',
+                                        }),
+                                        control: base => ({
+                                            ...base,
+                                            backgroundColor: '#1F2937',
+                                            borderColor: '#4B5563',
+                                        }),
+                                    }}
                                 />
                             </div>
                         </div>
                     )}
 
-                    {loading ? (
-                        <Button className="w-full my-4">
-                            <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
-                        </Button>
-                    ) : (
-                        <Button type="submit" className="w-full my-4">
-                            Update Job
-                        </Button>
-                    )}
+                    <div className='mt-5'>
+                        <Label>Description</Label>
+                        <ReactQuill
+                            ref={quillRef}
+                            theme="snow"
+                            value={input.description}
+                            onChange={handleDescriptionChange}
+                            modules={{
+                                toolbar: [
+                                    [{ 'header': [1, 2, false] }],
+                                    ['bold', 'italic', 'underline'],
+                                    ['link', 'image'],
+                                    ['clean']
+                                ],
+                            }}
+                            className="text-black bg-white min-h-[12rem]"
+                        />
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className={`mt-5 bg-blue-600 hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? <Loader2 className="animate-spin" /> : "Update Job"}
+                    </Button>
                 </form>
             </div>
         </div>
@@ -248,19 +303,3 @@ const EditJob = () => {
 };
 
 export default EditJob;
-
-// Quill Configuration
-const QuillModules = {
-    toolbar: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['bold', 'italic', 'underline'],
-        ['link'],
-        [{ 'align': [] }],
-        ['clean']
-    ],
-};
-
-const QuillFormats = [
-    'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'link', 'align'
-];
